@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class ShippingMethodTest < ActiveSupport::TestCase
   test "should not save shipping method without name" do
@@ -69,7 +69,7 @@ class ShippingMethodTest < ActiveSupport::TestCase
       per_kg_fee_cents: 200,
       distance_multiplier: 1.5
     )
-    
+
     assert_equal standard, ShippingMethod.default
   end
 
@@ -86,7 +86,7 @@ class ShippingMethodTest < ActiveSupport::TestCase
       per_kg_fee_cents: 50,
       distance_multiplier: 0.8
     )
-    
+
     assert_equal express, ShippingMethod.default
   end
 end

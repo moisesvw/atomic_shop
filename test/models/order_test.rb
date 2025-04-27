@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class OrderTest < ActiveSupport::TestCase
   setup do
@@ -88,10 +88,10 @@ class OrderTest < ActiveSupport::TestCase
       status: :cart,
       currency: "USD"
     )
-    
+
     OrderItem.create(order: order, product_variant: @variant, quantity: 2, unit_price_cents: 1000)
     OrderItem.create(order: order, product_variant: @variant, quantity: 3, unit_price_cents: 1000)
-    
+
     assert_equal 5, order.total_items
   end
 
@@ -103,7 +103,7 @@ class OrderTest < ActiveSupport::TestCase
       currency: "USD",
       subtotal_cents: 2500
     )
-    
+
     assert_equal 25.0, order.subtotal
   end
 
@@ -115,7 +115,7 @@ class OrderTest < ActiveSupport::TestCase
       currency: "USD",
       discount_cents: 500
     )
-    
+
     assert_equal 5.0, order.discount
   end
 
@@ -127,7 +127,7 @@ class OrderTest < ActiveSupport::TestCase
       currency: "USD",
       shipping_cents: 795
     )
-    
+
     assert_equal 7.95, order.shipping
   end
 
@@ -139,7 +139,7 @@ class OrderTest < ActiveSupport::TestCase
       currency: "USD",
       tax_cents: 225
     )
-    
+
     assert_equal 2.25, order.tax
   end
 
@@ -151,7 +151,7 @@ class OrderTest < ActiveSupport::TestCase
       currency: "USD",
       total_cents: 3020
     )
-    
+
     assert_equal 30.2, order.total
   end
 
@@ -162,7 +162,7 @@ class OrderTest < ActiveSupport::TestCase
       status: :pending_payment,
       currency: "USD"
     )
-    
+
     assert order.can_cancel?
   end
 
@@ -173,7 +173,7 @@ class OrderTest < ActiveSupport::TestCase
       status: :paid,
       currency: "USD"
     )
-    
+
     assert order.can_cancel?
   end
 
@@ -184,7 +184,7 @@ class OrderTest < ActiveSupport::TestCase
       status: :processing,
       currency: "USD"
     )
-    
+
     assert order.can_cancel?
   end
 
@@ -195,7 +195,7 @@ class OrderTest < ActiveSupport::TestCase
       status: :shipped,
       currency: "USD"
     )
-    
+
     assert_not order.can_cancel?
   end
 
@@ -206,7 +206,7 @@ class OrderTest < ActiveSupport::TestCase
       status: :delivered,
       currency: "USD"
     )
-    
+
     assert_not order.can_cancel?
   end
 
@@ -217,7 +217,7 @@ class OrderTest < ActiveSupport::TestCase
       status: :cancelled,
       currency: "USD"
     )
-    
+
     assert_not order.can_cancel?
   end
 
@@ -228,7 +228,7 @@ class OrderTest < ActiveSupport::TestCase
       status: :refunded,
       currency: "USD"
     )
-    
+
     assert_not order.can_cancel?
   end
 end

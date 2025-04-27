@@ -16,7 +16,7 @@ class ProductVariant < ApplicationRecord
 
   def options_hash
     return {} if options.blank?
-    
+
     begin
       JSON.parse(options)
     rescue JSON::ParserError

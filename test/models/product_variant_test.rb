@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class ProductVariantTest < ActiveSupport::TestCase
   setup do
@@ -60,23 +60,23 @@ class ProductVariantTest < ActiveSupport::TestCase
 
   test "options_hash should parse JSON options" do
     variant = ProductVariant.create(
-      product: @product, 
-      sku: "TEST-SKU", 
-      price_cents: 1000, 
+      product: @product,
+      sku: "TEST-SKU",
+      price_cents: 1000,
       stock_quantity: 10,
       options: '{"color": "red", "size": "medium"}'
     )
-    expected = {"color" => "red", "size" => "medium"}
+    expected = { "color" => "red", "size" => "medium" }
     assert_equal expected, variant.options_hash
   end
 
   test "options_hash should return empty hash for invalid JSON" do
     variant = ProductVariant.create(
-      product: @product, 
-      sku: "TEST-SKU", 
-      price_cents: 1000, 
+      product: @product,
+      sku: "TEST-SKU",
+      price_cents: 1000,
       stock_quantity: 10,
-      options: 'invalid json'
+      options: "invalid json"
     )
     assert_equal({}, variant.options_hash)
   end

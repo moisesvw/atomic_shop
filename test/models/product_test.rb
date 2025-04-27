@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class ProductTest < ActiveSupport::TestCase
   test "should not save product without name" do
@@ -36,7 +36,7 @@ class ProductTest < ActiveSupport::TestCase
   test "should have featured scope" do
     featured_product = Product.create(name: "Featured Product", description: "Featured", category: Category.create(name: "Test"), featured: true)
     non_featured_product = Product.create(name: "Regular Product", description: "Regular", category: Category.create(name: "Test 2"), featured: false)
-    
+
     assert_includes Product.featured, featured_product
     assert_not_includes Product.featured, non_featured_product
   end
@@ -50,7 +50,7 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.create(name: "Test Product", description: "Test", category: Category.create(name: "Test"))
     ProductVariant.create(product: product, sku: "TEST1", price_cents: 1000, stock_quantity: 10)
     ProductVariant.create(product: product, sku: "TEST2", price_cents: 1000, stock_quantity: 5)
-    
+
     assert_equal "$10.0", product.price_range
   end
 
@@ -58,17 +58,17 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.create(name: "Test Product", description: "Test", category: Category.create(name: "Test"))
     ProductVariant.create(product: product, sku: "TEST1", price_cents: 1000, stock_quantity: 10)
     ProductVariant.create(product: product, sku: "TEST2", price_cents: 1500, stock_quantity: 5)
-    
+
     assert_equal "$10.0 - $15.0", product.price_range
   end
 
   test "average_rating should return average of review ratings" do
     product = Product.create(name: "Test Product", description: "Test", category: Category.create(name: "Test"))
     user = User.create(email: "test@example.com", password: "password", first_name: "Test", last_name: "User")
-    
+
     Review.create(product: product, user: user, rating: 4, title: "Good", content: "Good product")
     Review.create(product: product, user: user, rating: 2, title: "Bad", content: "Bad product")
-    
+
     assert_equal 3, product.average_rating
   end
 
@@ -76,7 +76,7 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.create(name: "Test Product", description: "Test", category: Category.create(name: "Test"))
     ProductVariant.create(product: product, sku: "TEST1", price_cents: 1000, stock_quantity: 0)
     ProductVariant.create(product: product, sku: "TEST2", price_cents: 1500, stock_quantity: 5)
-    
+
     assert product.in_stock?
   end
 
@@ -84,7 +84,7 @@ class ProductTest < ActiveSupport::TestCase
     product = Product.create(name: "Test Product", description: "Test", category: Category.create(name: "Test"))
     ProductVariant.create(product: product, sku: "TEST1", price_cents: 1000, stock_quantity: 0)
     ProductVariant.create(product: product, sku: "TEST2", price_cents: 1500, stock_quantity: 0)
-    
+
     assert_not product.in_stock?
   end
 end

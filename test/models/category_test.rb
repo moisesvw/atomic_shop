@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class CategoryTest < ActiveSupport::TestCase
   test "should not save category without name" do

@@ -1,4 +1,4 @@
-require 'test_helper'
+require "test_helper"
 
 class PaymentTest < ActiveSupport::TestCase
   setup do
@@ -88,12 +88,12 @@ class PaymentTest < ActiveSupport::TestCase
       payment_method: "credit_card",
       transaction_id: "txn_123456"
     )
-    
+
     assert payment.respond_to?(:pending!)
     assert payment.respond_to?(:completed!)
     assert payment.respond_to?(:failed!)
     assert payment.respond_to?(:refunded!)
-    
+
     assert payment.respond_to?(:pending?)
     assert payment.respond_to?(:completed?)
     assert payment.respond_to?(:failed?)
