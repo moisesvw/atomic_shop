@@ -1,7 +1,7 @@
 class Payment < ApplicationRecord
   belongs_to :order
 
-  enum status: {
+  enum :status, {
     pending: 0,
     completed: 1,
     failed: 2,

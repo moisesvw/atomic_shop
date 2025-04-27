@@ -6,7 +6,7 @@ class Order < ApplicationRecord
   has_one :shipping_address, as: :addressable, dependent: :destroy
   has_one :billing_address, as: :addressable, dependent: :destroy
 
-  enum status: {
+  enum :status, {
     cart: 0,
     pending_payment: 1,
     paid: 2,
