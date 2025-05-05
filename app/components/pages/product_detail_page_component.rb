@@ -14,11 +14,11 @@ class Pages::ProductDetailPageComponent < ViewComponent::Base
   def selected_variant
     @selected_variant ||= if selected_variant_id
                             variants.find { |v| v.id == selected_variant_id.to_i }
-                          elsif selected_options.present?
+    elsif selected_options.present?
                             find_variant_by_options
-                          else
+    else
                             variants.first
-                          end
+    end
   end
 
   def available_options
@@ -47,16 +47,16 @@ class Pages::ProductDetailPageComponent < ViewComponent::Base
 
   def build_available_options
     options = {}
-    
+
     variants.each do |variant|
       variant_options = variant.options_hash
-      
+
       variant_options.each do |name, value|
         options[name] ||= []
         options[name] << value unless options[name].include?(value)
       end
     end
-    
+
     options
   end
 

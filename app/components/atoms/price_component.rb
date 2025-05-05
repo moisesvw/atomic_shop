@@ -9,7 +9,7 @@ class Atoms::PriceComponent < ViewComponent::Base
   end
 
   def price_classes
-    base_classes = ["price", "price-#{size}"]
+    base_classes = [ "price", "price-#{size}" ]
     base_classes << classes if classes.present?
     base_classes.join(" ")
   end

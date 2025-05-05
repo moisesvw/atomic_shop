@@ -10,7 +10,7 @@ module Services
         # Get basic product details
         details_service = Services::Molecules::ProductDetailsService.new(@product_id)
         details_result = details_service.execute
-        
+
         return { success: false, error: "Product not found" } unless details_result
 
         # Get selected variant details if options are provided

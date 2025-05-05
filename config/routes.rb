@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   resources :products do
     member do
-      get 'select_variant'
+      get "select_variant"
     end
   end
 end

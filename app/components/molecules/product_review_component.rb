@@ -7,7 +7,7 @@ class Molecules::ProductReviewComponent < ViewComponent::Base
   end
 
   def review_classes
-    base_classes = ["product-review"]
+    base_classes = [ "product-review" ]
     base_classes << classes if classes.present?
     base_classes.join(" ")
   end

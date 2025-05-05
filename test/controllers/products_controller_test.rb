@@ -7,15 +7,15 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
   # Test that the routes are set up correctly
   test "routes should be set up correctly" do
     # Test root route
-    assert_recognizes({ controller: 'products', action: 'index' }, '/')
+    assert_recognizes({ controller: "products", action: "index" }, "/")
 
     # Test products index route
-    assert_recognizes({ controller: 'products', action: 'index' }, '/products')
+    assert_recognizes({ controller: "products", action: "index" }, "/products")
 
     # Test product show route
-    assert_recognizes({ controller: 'products', action: 'show', id: '1' }, '/products/1')
+    assert_recognizes({ controller: "products", action: "show", id: "1" }, "/products/1")
 
     # Test product select_variant route
-    assert_recognizes({ controller: 'products', action: 'select_variant', id: '1' }, '/products/1/select_variant')
+    assert_recognizes({ controller: "products", action: "select_variant", id: "1" }, "/products/1/select_variant")
   end
 end
