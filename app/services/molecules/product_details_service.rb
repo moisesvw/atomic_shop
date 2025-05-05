@@ -11,7 +11,7 @@ module Services
         return nil unless product
 
         variant_finder = Services::Atoms::VariantFinder.new(product)
-        
+
         {
           product: product,
           variants: variant_finder.all_variants,

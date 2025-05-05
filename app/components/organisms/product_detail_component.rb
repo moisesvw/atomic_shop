@@ -1,8 +1,8 @@
 class Organisms::ProductDetailComponent < ViewComponent::Base
-  attr_reader :product, :variants, :available_options, :selected_variant, 
+  attr_reader :product, :variants, :available_options, :selected_variant,
               :selected_options, :reviews, :classes
 
-  def initialize(product:, variants:, available_options:, selected_variant:, 
+  def initialize(product:, variants:, available_options:, selected_variant:,
                  selected_options: {}, reviews: [], classes: "")
     @product = product
     @variants = variants
@@ -14,7 +14,7 @@ class Organisms::ProductDetailComponent < ViewComponent::Base
   end
 
   def detail_classes
-    base_classes = ["product-detail"]
+    base_classes = [ "product-detail" ]
     base_classes << classes if classes.present?
     base_classes.join(" ")
   end

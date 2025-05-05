@@ -1,8 +1,8 @@
 class Templates::ProductDetailTemplateComponent < ViewComponent::Base
-  attr_reader :product, :variants, :available_options, :selected_variant, 
+  attr_reader :product, :variants, :available_options, :selected_variant,
               :selected_options, :reviews, :related_products
 
-  def initialize(product:, variants:, available_options:, selected_variant: nil, 
+  def initialize(product:, variants:, available_options:, selected_variant: nil,
                  selected_options: {}, reviews: [], related_products: [])
     @product = product
     @variants = variants

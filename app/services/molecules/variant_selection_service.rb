@@ -16,7 +16,7 @@ module Services
 
         if selected_variant
           inventory_checker = Services::Atoms::InventoryChecker.new(selected_variant)
-          
+
           {
             success: true,
             variant: selected_variant,

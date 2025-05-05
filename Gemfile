@@ -62,6 +62,8 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "mocha", "~> 2.1"
+  gem "cuprite", "~> 0.14"  # Chrome headless driver that doesn't require ChromeDriver
 end
 
 gem "view_component", "~> 3.22"
@@ -73,3 +75,6 @@ gem "dry-validation", "~> 1.11"
 gem "dry-monads", "~> 1.8"
 
 gem "pundit", "~> 2.5"
+
+# Pagination
+gem "kaminari", "~> 1.2"

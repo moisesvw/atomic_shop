@@ -18,14 +18,14 @@ module Services
 
       def available_options
         result = {}
-        
+
         all_variants.each do |variant|
           variant.options_hash.each do |key, value|
             result[key] ||= []
             result[key] << value unless result[key].include?(value)
           end
         end
-        
+
         result
       end
     end

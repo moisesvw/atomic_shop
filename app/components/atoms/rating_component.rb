@@ -10,7 +10,7 @@ class Atoms::RatingComponent < ViewComponent::Base
   end
 
   def rating_classes
-    base_classes = ["rating", "rating-#{size}"]
+    base_classes = [ "rating", "rating-#{size}" ]
     base_classes << classes if classes.present?
     base_classes.join(" ")
   end

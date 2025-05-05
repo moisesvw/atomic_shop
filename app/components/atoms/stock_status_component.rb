@@ -10,7 +10,7 @@ class Atoms::StockStatusComponent < ViewComponent::Base
   end
 
   def status_classes
-    base_classes = ["stock-status"]
+    base_classes = [ "stock-status" ]
     base_classes << status_class
     base_classes << classes if classes.present?
     base_classes.join(" ")

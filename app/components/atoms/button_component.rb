@@ -12,7 +12,7 @@ class Atoms::ButtonComponent < ViewComponent::Base
   end
 
   def button_classes
-    base_classes = ["btn"]
+    base_classes = [ "btn" ]
     base_classes << "btn-#{type}" unless type == :default
     base_classes << "btn-#{size}" unless size == :medium
     base_classes << "disabled" if disabled

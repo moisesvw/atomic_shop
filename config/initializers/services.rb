@@ -11,4 +11,4 @@ module Services
 end
 
 # Explicitly require all service classes
-Dir[Rails.root.join('app', 'services', '**', '*.rb')].each { |file| require file }
+Dir[Rails.root.join("app", "services", "**", "*.rb")].each { |file| require file }

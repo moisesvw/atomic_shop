@@ -8,7 +8,7 @@ class Molecules::ProductCardComponent < ViewComponent::Base
   end
 
   def card_classes
-    base_classes = ["product-card"]
+    base_classes = [ "product-card" ]
     base_classes << classes if classes.present?
     base_classes.join(" ")
   end
