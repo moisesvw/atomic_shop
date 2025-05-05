@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
 
   def show
     @product_id = params[:id]
-    @selected_options = params.fetch(:options, {}).permit!.to_h
+    @selected_options = params.fetch(:options, {}).permit(:color, :size, :storage).to_h
 
     service = Services::Organisms::ProductDetailPageService.new(@product_id, @selected_options)
     @result = service.execute
@@ -40,7 +40,7 @@ class ProductsController < ApplicationController
 
   def select_variant
     @product_id = params[:id]
-    @selected_options = params.fetch(:options, {}).permit!.to_h
+    @selected_options = params.fetch(:options, {}).permit(:color, :size, :storage).to_h
 
     service = Services::Molecules::VariantSelectionService.new(@product_id, @selected_options)
     @result = service.execute
