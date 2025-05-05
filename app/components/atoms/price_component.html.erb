@@ -1,0 +1,11 @@
+<div class="<%= price_classes %>">
+  <% if on_sale? %>
+    <span class="price-current"><%= format_price(price) %></span>
+    <span class="price-original"><s><%= format_price(original_price) %></s></span>
+    <span class="price-discount">
+      <%= (((original_price - price) / original_price) * 100).round %>% off
+    </span>
+  <% else %>
+    <span class="price-current"><%= format_price(price) %></span>
+  <% end %>
+</div>

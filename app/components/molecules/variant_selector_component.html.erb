@@ -1,0 +1,21 @@
+<div class="<%= selector_classes %>">
+  <% available_options.each do |option_name, option_values| %>
+    <div class="variant-option-group" data-option-name="<%= option_name %>">
+      <h4 class="option-name"><%= option_name.titleize %>:</h4>
+      
+      <div class="option-values">
+        <% option_values.each do |option_value| %>
+          <% is_selected = option_selected?(option_name, option_value) %>
+          
+          <a href="<%= option_url(option_name, option_value) %>" 
+             class="option-value <%= 'selected' if is_selected %>"
+             data-option-value="<%= option_value %>"
+             data-option-name="<%= option_name %>"
+             data-action="variant#select">
+            <%= option_value %>
+          </a>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

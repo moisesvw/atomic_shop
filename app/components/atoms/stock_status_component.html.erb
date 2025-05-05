@@ -1,0 +1,15 @@
+<div class="<%= status_classes %>">
+  <span class="status-icon">
+    <% if in_stock %>
+      <i class="fas fa-check-circle"></i>
+    <% else %>
+      <i class="fas fa-times-circle"></i>
+    <% end %>
+  </span>
+  
+  <span class="status-text"><%= status_text %></span>
+  
+  <% if show_quantity && quantity && in_stock %>
+    <span class="status-quantity">(<%= quantity %> available)</span>
+  <% end %>
+</div>
