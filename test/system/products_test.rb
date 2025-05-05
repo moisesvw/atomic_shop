@@ -86,7 +86,7 @@ class ProductsTest < ApplicationSystemTestCase
 
   test "viewing product reviews" do
     # Create a user for the review
-    user = User.create!(name: "Test User", email: "test@example.com", password: "password")
+    user = User.create!(first_name: "Test", last_name: "User", email: "test@example.com", password: "password")
 
     # Create a review
     Review.create!(
