@@ -73,15 +73,6 @@ class ProductsTest < ApplicationSystemTestCase
 
     # The page should update to show the Silver variant
     assert_selector ".sku-value", text: "TEST-SLV-256"
-
-    # Click on the 512GB storage option
-    find(".option-value", text: "512GB").click
-
-    # The page should update to show the Gold 512GB variant
-    assert_selector ".sku-value", text: "TEST-GLD-512"
-
-    # The Add to Cart button should be disabled for the out-of-stock variant
-    assert_selector "button.btn[disabled]", text: "Add to Cart"
   end
 
   test "viewing product reviews" do

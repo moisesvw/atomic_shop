@@ -63,6 +63,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "mocha", "~> 2.1"
+  gem "cuprite", "~> 0.14"  # Chrome headless driver that doesn't require ChromeDriver
 end
 
 gem "view_component", "~> 3.22"

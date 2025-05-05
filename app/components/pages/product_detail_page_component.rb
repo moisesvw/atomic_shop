@@ -63,7 +63,7 @@ class Pages::ProductDetailPageComponent < ViewComponent::Base
   def find_variant_by_options
     variants.find do |variant|
       variant_options = variant.options_hash
-      selected_options.all? { |name, value| variant_options[name] == value }
+      selected_options.all? { |name, value| variant_options[name.to_s] == value.to_s }
     end
   end
 end

@@ -51,11 +51,9 @@
         )) %>
       </div>
 
-      <% if selected_variant %>
-        <div class="product-sku">
-          SKU: <span class="sku-value"><%= selected_variant.sku %></span>
-        </div>
-      <% end %>
+      <div class="product-sku">
+        SKU: <span class="sku-value"><%= selected_variant&.sku || "N/A" %></span>
+      </div>
 
       <!-- Add to Cart -->
       <div class="product-actions">
