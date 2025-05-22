@@ -66,7 +66,7 @@ group :test do
   gem "cuprite", "~> 0.14"  # Chrome headless driver that doesn't require ChromeDriver
 end
 
-gem "view_component", "~> 3.22"
+gem "view_component", "~> 3.23"
 
 gem "interactor", "~> 3.1"
 
