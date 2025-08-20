@@ -51,7 +51,7 @@ class Product < ApplicationRecord
   end
 
   def available_variants
-    product_variants.where('stock_quantity > 0')
+    product_variants.where("stock_quantity > 0")
   end
 
   private

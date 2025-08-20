@@ -28,7 +28,7 @@ class Molecules::CartItemComponent < ViewComponent::Base
   end
 
   def max_quantity
-    [cart_item.available_quantity, 10].min
+    [ cart_item.available_quantity, 10 ].min
   end
 
   def in_stock?

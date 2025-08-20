@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_27_171804) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_20_050000) do
   create_table "addresses", force: :cascade do |t|
     t.string "street"
     t.string "city"
@@ -22,6 +22,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_171804) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable"
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "cart_id", null: false
+    t.integer "product_variant_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id", "product_variant_id"], name: "index_cart_items_on_cart_id_and_product_variant_id", unique: true
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["product_variant_id"], name: "index_cart_items_on_product_variant_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "session_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id", "status"], name: "index_carts_on_session_id_and_status"
+    t.index ["session_id"], name: "index_carts_on_session_id"
+    t.index ["user_id", "status"], name: "index_carts_on_user_id_and_status"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -126,9 +149,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_27_171804) do
     t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "email_verified", default: false, null: false
+    t.string "email_verification_token"
+    t.datetime "email_verification_sent_at"
+    t.string "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.datetime "locked_at"
+    t.integer "failed_login_attempts", default: 0, null: false
+    t.datetime "last_login_at"
+    t.string "last_sign_in_ip"
+    t.integer "sign_in_count", default: 0, null: false
+    t.integer "role", default: 0, null: false
+    t.datetime "email_verified_at"
+    t.string "password_reset_token"
+    t.datetime "password_reset_sent_at"
+    t.index ["active"], name: "index_users_on_active"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["email_verification_token"], name: "index_users_on_email_verification_token", unique: true
+    t.index ["email_verified"], name: "index_users_on_email_verified"
+    t.index ["last_login_at"], name: "index_users_on_last_login_at"
+    t.index ["locked_at"], name: "index_users_on_locked_at"
+    t.index ["password_reset_token"], name: "index_users_on_password_reset_token", unique: true
+    t.index ["remember_token"], name: "index_users_on_remember_token", unique: true
+    t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "product_variants"
+  add_foreign_key "carts", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "product_variants"
   add_foreign_key "orders", "shipping_methods"

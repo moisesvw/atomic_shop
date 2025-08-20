@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Atoms::PriceComponent < ViewComponent::Base
-  attr_reader :price, :original_price, :size, :classes
+  attr_reader :price_cents, :original_price_cents, :size, :classes
 
-  def initialize(price:, original_price: nil, size: :medium, classes: "")
-    @price = price
-    @original_price = original_price
+  def initialize(price_cents:, original_price_cents: nil, size: :medium, classes: "")
+    @price_cents = price_cents
+    @original_price_cents = original_price_cents
     @size = size
     @classes = classes
   end
@@ -17,10 +17,16 @@ class Atoms::PriceComponent < ViewComponent::Base
   end
 
   def on_sale?
-    original_price.present? && original_price > price
+    original_price_cents.present? && original_price_cents > price_cents
   end
 
-  def format_price(value)
-    value
+  def formatted_price
+    "$#{(price_cents / 100.0).round(2)}"
+  end
+
+  def formatted_original_price
+    return nil unless original_price_cents
+
+    "$#{(original_price_cents / 100.0).round(2)}"
   end
 end

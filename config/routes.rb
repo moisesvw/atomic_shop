@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   # Shopping Cart routes
-  resource :cart, only: [:show] do
+  resource :cart, only: [ :show ] do
     post :add_item
     patch :update_item
     delete :remove_item

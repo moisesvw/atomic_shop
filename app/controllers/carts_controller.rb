@@ -2,7 +2,7 @@
 
 class CartsController < ApplicationController
   before_action :set_cart
-  before_action :set_cart_item, only: [:update_item, :remove_item]
+  before_action :set_cart_item, only: [ :update_item, :remove_item ]
 
   def show
     @cart_items = @cart.cart_items.includes(product_variant: :product)

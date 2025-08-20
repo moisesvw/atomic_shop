@@ -10,7 +10,7 @@ class CreateCarts < ActiveRecord::Migration[8.0]
     end
 
     add_index :carts, :session_id
-    add_index :carts, [:user_id, :status]
-    add_index :carts, [:session_id, :status]
+    add_index :carts, [ :user_id, :status ]
+    add_index :carts, [ :session_id, :status ]
   end
 end

@@ -13,7 +13,7 @@ module Services
 
       def call
         paginated_products = paginate_products
-        
+
         {
           products: paginated_products,
           pagination: build_pagination_data(paginated_products),
