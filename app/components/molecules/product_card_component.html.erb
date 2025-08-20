@@ -1,54 +1,80 @@
-<div class="<%= card_classes %>">
-  <div class="product-card-image">
-    <a href="<%= product_path(product) %>">
-      <img src="<%= primary_image %>" alt="<%= product.name %>">
-    </a>
-  </div>
-
-  <div class="product-card-content">
-    <h3 class="product-card-title">
-      <a href="<%= product_path(product) %>"><%= product.name %></a>
-    </h3>
-    
-    <div class="product-card-price">
-      <%= render(Atoms::PriceComponent.new(price: price_display)) %>
-    </div>
-
-    <% if product.average_rating %>
-      <div class="product-card-rating">
-        <%= render(Atoms::RatingComponent.new(rating: product.average_rating, size: :small)) %>
+<div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+  <!-- Product Image -->
+  <div class="aspect-w-1 aspect-h-1 bg-gray-200 relative group">
+    <%= link_to product_path(product), class: "block" do %>
+      <div class="w-full h-48 bg-gray-300 flex items-center justify-center">
+        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
       </div>
+      <!-- Hover overlay -->
+      <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-opacity duration-300"></div>
     <% end %>
-    
-    <div class="product-card-stock">
-      <%= render(Atoms::StockStatusComponent.new(in_stock: in_stock?)) %>
-    </div>
   </div>
 
-  <% if show_actions %>
-    <div class="product-card-actions">
-      <%= render(Atoms::ButtonComponent.new(
-        label: "View Details",
-        type: :secondary,
-        size: :small,
-        data: { product_id: product.id }
-      )) %>
+  <!-- Product Content -->
+  <div class="p-4">
+    <!-- Product Name -->
+    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+      <%= link_to product.name, product_path(product), class: "hover:text-blue-600 transition-colors" %>
+    </h3>
 
-      <% if in_stock? %>
-        <%= render(Atoms::ButtonComponent.new(
-          label: "Add to Cart",
-          icon: "cart",
-          size: :small,
-          data: { action: "cart#add", product_id: product.id }
-        )) %>
-      <% else %>
-        <%= render(Atoms::ButtonComponent.new(
-          label: "Out of Stock",
-          type: :disabled,
-          disabled: true,
-          size: :small
-        )) %>
+    <!-- Product Description -->
+    <% if product.description.present? %>
+      <p class="text-sm text-gray-600 mb-3 line-clamp-2"><%= product.description %></p>
+    <% end %>
+
+    <!-- Price -->
+    <div class="mb-3">
+      <%= render Atoms::PriceComponent.new(
+        price_cents: product.lowest_price,
+        size: :medium,
+        classes: "text-lg font-bold text-green-600"
+      ) %>
+      <% if product.lowest_price != product.highest_price %>
+        <span class="text-sm text-gray-500">starting at</span>
       <% end %>
     </div>
-  <% end %>
+
+    <!-- Rating -->
+    <% if product.average_rating %>
+      <div class="mb-3">
+        <%= render Atoms::RatingComponent.new(
+          rating: product.average_rating,
+          size: :small,
+          show_count: true,
+          count: product.review_count
+        ) %>
+      </div>
+    <% end %>
+
+    <!-- Stock Status -->
+    <div class="mb-4">
+      <%= render Atoms::StockStatusComponent.new(
+        stock_quantity: product.total_stock,
+        size: :small
+      ) %>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex flex-col space-y-2">
+      <%= link_to product_path(product),
+          class: "w-full bg-blue-600 text-white text-center py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium" do %>
+        View Details
+      <% end %>
+
+      <% if product.in_stock? %>
+        <%= form_with url: add_item_cart_path, method: :post, local: false, class: "w-full" do |form| %>
+          <%= form.hidden_field :product_variant_id, value: product.default_variant&.id %>
+          <%= form.hidden_field :quantity, value: 1 %>
+          <%= form.submit "Add to Cart",
+              class: "w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-colors font-medium cursor-pointer" %>
+        <% end %>
+      <% else %>
+        <button disabled class="w-full bg-gray-300 text-gray-500 py-2 px-4 rounded-md cursor-not-allowed font-medium">
+          Out of Stock
+        </button>
+      <% end %>
+    </div>
+  </div>
 </div>
