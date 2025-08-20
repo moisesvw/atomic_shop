@@ -1,0 +1,31 @@
+# Category fixtures for testing
+
+electronics:
+  name: "Electronics"
+  slug: "electronics"
+  description: "Electronic devices and gadgets"
+  created_at: <%= 1.month.ago %>
+  updated_at: <%= 1.week.ago %>
+
+smartphones:
+  name: "Smartphones"
+  slug: "smartphones"
+  description: "Mobile phones and accessories"
+  parent: electronics
+  created_at: <%= 3.weeks.ago %>
+  updated_at: <%= 1.week.ago %>
+
+laptops:
+  name: "Laptops"
+  slug: "laptops"
+  description: "Portable computers"
+  parent: electronics
+  created_at: <%= 3.weeks.ago %>
+  updated_at: <%= 1.week.ago %>
+
+clothing:
+  name: "Clothing"
+  slug: "clothing"
+  description: "Apparel and fashion items"
+  created_at: <%= 1.month.ago %>
+  updated_at: <%= 1.week.ago %>
