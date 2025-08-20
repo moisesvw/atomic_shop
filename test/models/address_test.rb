@@ -2,7 +2,7 @@ require "test_helper"
 
 class AddressTest < ActiveSupport::TestCase
   setup do
-    @user = User.create(email: "test@example.com", password: "password", first_name: "Test", last_name: "User")
+    @user = create_valid_user(email: "test@example.com")
   end
 
   test "should not save address without street" do

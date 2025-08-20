@@ -64,7 +64,7 @@ class ProductTest < ActiveSupport::TestCase
 
   test "average_rating should return average of review ratings" do
     product = Product.create(name: "Test Product", description: "Test", category: Category.create(name: "Test"))
-    user = User.create(email: "test@example.com", password: "password", first_name: "Test", last_name: "User")
+    user = create_valid_user(email: "test@example.com")
 
     Review.create(product: product, user: user, rating: 4, title: "Good", content: "Good product")
     Review.create(product: product, user: user, rating: 2, title: "Bad", content: "Bad product")

@@ -2,7 +2,7 @@ require "test_helper"
 
 class PaymentTest < ActiveSupport::TestCase
   setup do
-    @user = User.create(email: "test@example.com", password: "password", first_name: "Test", last_name: "User")
+    @user = create_valid_user(email: "test@example.com")
     @shipping_method = ShippingMethod.create(name: "Standard Shipping", base_fee_cents: 500, per_kg_fee_cents: 100, distance_multiplier: 1.0)
     @order = Order.create(user: @user, shipping_method: @shipping_method, status: :cart, currency: "USD")
   end
