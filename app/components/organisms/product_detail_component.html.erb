@@ -1,0 +1,107 @@
+<div class="<%= detail_classes %>">
+  <div class="product-detail-grid">
+    <!-- Product Images -->
+    <div class="product-images">
+      <div class="product-main-image">
+        <img src="<%= product_image %>" alt="<%= product.name %>">
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info">
+      <h1 class="product-title"><%= product.name %></h1>
+
+      <% if average_rating %>
+        <div class="product-rating">
+          <%= render(Atoms::RatingComponent.new(rating: average_rating)) %>
+          <span class="review-count">(<%= reviews.size %> reviews)</span>
+        </div>
+      <% end %>
+
+      <div class="product-price">
+        <% if selected_variant %>
+          <%= render(Atoms::PriceComponent.new(price: selected_variant.price, size: :large)) %>
+        <% else %>
+          <%= render(Atoms::PriceComponent.new(price: product.price_range, size: :large)) %>
+        <% end %>
+      </div>
+
+      <div class="product-description">
+        <%= product.description %>
+      </div>
+
+      <!-- Variant Selection -->
+      <% if available_options.any? %>
+        <div class="product-variants">
+          <%= render(Molecules::VariantSelectorComponent.new(
+            product: product,
+            available_options: available_options,
+            selected_options: selected_options
+          )) %>
+        </div>
+      <% end %>
+
+      <!-- Stock Status -->
+      <div class="product-stock">
+        <%= render(Atoms::StockStatusComponent.new(
+          in_stock: in_stock?,
+          quantity: available_quantity,
+          low_stock_threshold: 5,
+          show_quantity: true
+        )) %>
+      </div>
+
+      <div class="product-sku">
+        SKU: <span class="sku-value"><%= selected_variant&.sku || "N/A" %></span>
+      </div>
+
+      <!-- Add to Cart -->
+      <div class="product-actions">
+        <% if defined?(cart_items_path) %>
+          <form action="<%= cart_items_path %>" method="post" class="add-to-cart-form">
+            <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+            <input type="hidden" name="variant_id" value="<%= selected_variant&.id %>">
+
+            <div class="quantity-selector">
+              <label for="quantity">Quantity:</label>
+              <input type="number" id="quantity" name="quantity" value="1" min="1" max="<%= available_quantity %>" <%= "disabled" unless in_stock? %>>
+            </div>
+
+            <%= render(Atoms::ButtonComponent.new(
+              label: "Add to Cart",
+              icon: "cart",
+              type: :primary,
+              size: :large,
+              disabled: !in_stock?,
+              data: { action: "cart#add", product_id: product.id, variant_id: selected_variant&.id }
+            )) %>
+          </form>
+        <% else %>
+          <%= render(Atoms::ButtonComponent.new(
+            label: "Add to Cart",
+            icon: "cart",
+            type: :primary,
+            size: :large,
+            disabled: !in_stock?,
+            data: { action: "cart#add", product_id: product.id, variant_id: selected_variant&.id }
+          )) %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Reviews -->
+  <div class="product-reviews-section">
+    <h2 class="section-title">Customer Reviews</h2>
+
+    <% if has_reviews? %>
+      <div class="reviews-list">
+        <% reviews.each do |review| %>
+          <%= render(Molecules::ProductReviewComponent.new(review: review)) %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="no-reviews">This product has no reviews yet. Be the first to review it!</p>
+    <% end %>
+  </div>
+</div>
