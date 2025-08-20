@@ -47,9 +47,12 @@ class User < ApplicationRecord
 
   # Password reset methods
   def generate_password_reset_token!
-    self.password_reset_token = SecureRandom.urlsafe_base64(32)
-    self.password_reset_sent_at = Time.current
-    save!
+    # Generate a simple token and store it directly
+    token = SecureRandom.urlsafe_base64(32)
+    update!(
+      password_reset_token: token,
+      password_reset_sent_at: Time.current
+    )
   end
 
   def clear_password_reset_token!

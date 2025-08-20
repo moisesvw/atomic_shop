@@ -112,8 +112,19 @@ class UserTest < ActiveSupport::TestCase
   test "should clear password reset token after use" do
     user = create_user
     user.generate_password_reset_token!
+
+    # Verify token was generated
+    assert_not_nil user.password_reset_token
+    assert_not_nil user.password_reset_sent_at
+
     user.clear_password_reset_token!
-    assert_nil user.password_reset_token
+
+    # Reload to get fresh data from database
+    user.reload
+
+    # Rails 8 may use signed tokens, so we check that the token is cleared
+    # by verifying the database column is actually nil
+    assert_nil user.read_attribute(:password_reset_token)
     assert_nil user.password_reset_sent_at
   end
 

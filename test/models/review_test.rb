@@ -2,7 +2,7 @@ require "test_helper"
 
 class ReviewTest < ActiveSupport::TestCase
   setup do
-    @user = User.create(email: "test@example.com", password: "password", first_name: "Test", last_name: "User")
+    @user = create_valid_user(email: "test@example.com")
     @category = Category.create(name: "Test Category")
     @product = Product.create(name: "Test Product", description: "Test Description", category: @category)
   end

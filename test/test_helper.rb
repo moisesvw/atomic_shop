@@ -154,5 +154,30 @@ module ActiveSupport
       assert_equal expected_count, query_count,
         "Expected #{expected_count} database queries, but #{query_count} were executed"
     end
+
+    # Authentication testing helpers
+
+    # Helper method to create valid users with strong passwords
+    def create_valid_user(attributes = {})
+      default_attributes = {
+        email: "test#{SecureRandom.hex(4)}@example.com",
+        password: "Password123",
+        password_confirmation: "Password123",
+        first_name: "Test",
+        last_name: "User"
+      }
+      User.create!(default_attributes.merge(attributes))
+    end
+
+    def build_valid_user(attributes = {})
+      default_attributes = {
+        email: "test#{SecureRandom.hex(4)}@example.com",
+        password: "Password123",
+        password_confirmation: "Password123",
+        first_name: "Test",
+        last_name: "User"
+      }
+      User.new(default_attributes.merge(attributes))
+    end
   end
 end
