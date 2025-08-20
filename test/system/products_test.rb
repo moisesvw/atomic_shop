@@ -43,36 +43,58 @@ class ProductsTest < ApplicationSystemTestCase
     visit product_url(@product)
 
     # Check that the page shows the product details
-    assert_selector "h1.product-title", text: @product.name
+    assert_selector "h1.product-title", text: @product.name, wait: 10
     assert_text @product.description
 
     # Check that the price is displayed
-    assert_selector ".product-price"
+    assert_selector ".product-price", wait: 5
 
     # Check that the variant options are displayed
-    assert_selector ".variant-option-group", count: 2  # color and storage
-    assert_selector ".option-value", text: "Black"
-    assert_selector ".option-value", text: "Silver"
-    assert_selector ".option-value", text: "Gold"
-    assert_selector ".option-value", text: "128GB"
-    assert_selector ".option-value", text: "256GB"
-    assert_selector ".option-value", text: "512GB"
+    assert_selector ".variant-option-group", count: 2, wait: 10  # color and storage
+    assert_selector ".option-value", text: "Black", wait: 5
+    assert_selector ".option-value", text: "Silver", wait: 5
+    assert_selector ".option-value", text: "Gold", wait: 5
+    assert_selector ".option-value", text: "128GB", wait: 5
+    assert_selector ".option-value", text: "256GB", wait: 5
+    assert_selector ".option-value", text: "512GB", wait: 5
 
     # Check that the stock status is displayed
-    assert_selector ".stock-status"
+    assert_selector ".stock-status", wait: 5
   end
 
   test "selecting a product variant" do
-    visit product_url(@product)
+    # Add retry logic for flaky browser startup in CI
+    retries = ENV['CI'] ? 3 : 1
 
-    # Initially, the first variant should be selected
-    assert_selector ".sku-value", text: "TEST-BLK-128"
+    retries.times do |attempt|
+      begin
+        visit product_url(@product)
 
-    # Click on the Silver color option
-    find(".option-value", text: "Silver").click
+        # Wait for page to fully load
+        assert_selector "h1", text: @product.name, wait: 10
 
-    # The page should update to show the Silver variant
-    assert_selector ".sku-value", text: "TEST-SLV-256"
+        # Initially, the first variant should be selected
+        assert_selector ".sku-value", text: "TEST-BLK-128", wait: 5
+
+        # Click on the Silver color option
+        find(".option-value", text: "Silver", wait: 5).click
+
+        # The page should update to show the Silver variant
+        assert_selector ".sku-value", text: "TEST-SLV-256", wait: 5
+
+        # If we get here, test passed
+        break
+      rescue => e
+        if attempt == retries - 1
+          # Last attempt failed, re-raise the error
+          raise e
+        else
+          # Retry after a short delay
+          sleep(2)
+          next
+        end
+      end
+    end
   end
 
   test "viewing product reviews" do

@@ -78,6 +78,8 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
+          CI: true
+          HEADLESS: true
           # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test test:system
 
