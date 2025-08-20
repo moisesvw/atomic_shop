@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Atoms::RatingComponent < ViewComponent::Base
   attr_reader :rating, :max_rating, :size, :show_value, :classes
 

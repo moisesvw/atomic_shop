@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Atoms::ButtonComponent < ViewComponent::Base
   attr_reader :label, :type, :disabled, :icon, :size, :data_attributes, :classes
 

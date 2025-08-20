@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Organisms::ProductGridComponent < ViewComponent::Base
   attr_reader :products, :title, :columns
 

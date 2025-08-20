@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Molecules::ProductReviewComponent < ViewComponent::Base
   attr_reader :review, :classes
 

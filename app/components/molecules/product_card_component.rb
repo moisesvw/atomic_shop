@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Molecules::ProductCardComponent < ViewComponent::Base
   attr_reader :product, :show_actions, :classes
 

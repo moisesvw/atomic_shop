@@ -1,0 +1,74 @@
+<% content_for :title, page_title %>
+<% content_for :meta_description, meta_description %>
+
+<%= render(Templates::ProductDetailTemplateComponent.new(
+  product: product,
+  variants: variants,
+  available_options: available_options,
+  selected_variant: selected_variant,
+  selected_options: selected_options,
+  reviews: reviews,
+  related_products: related_products
+)) %>
+
+<% if defined?(product_url) %>
+  <% if Rails.env.test? %>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "<%= product.name %>",
+        "description": "<%= product.description %>",
+        "sku": "<%= selected_variant&.sku %>",
+        "brand": {
+          "@type": "Brand",
+          "name": "AtomicShop"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "<%= product_url(product) %>",
+          "priceCurrency": "USD",
+          "price": "<%= selected_variant&.price || product.price_range %>",
+          "availability": "<%= selected_variant&.in_stock? ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' %>"
+        }
+        <% if product.average_rating %>
+        ,"aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "<%= product.average_rating %>",
+          "reviewCount": "<%= reviews.size %>"
+        }
+        <% end %>
+      }
+    </script>
+  <% else %>
+    <% content_for :schema_markup do %>
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "<%= product.name %>",
+          "description": "<%= product.description %>",
+          "sku": "<%= selected_variant&.sku %>",
+          "brand": {
+            "@type": "Brand",
+            "name": "AtomicShop"
+          },
+          "offers": {
+            "@type": "Offer",
+            "url": "<%= product_url(product) %>",
+            "priceCurrency": "USD",
+            "price": "<%= selected_variant&.price || product.price_range %>",
+            "availability": "<%= selected_variant&.in_stock? ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' %>"
+          }
+          <% if product.average_rating %>
+          ,"aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "<%= product.average_rating %>",
+            "reviewCount": "<%= reviews.size %>"
+          }
+          <% end %>
+        }
+      </script>
+    <% end %>
+  <% end %>
+<% end %>

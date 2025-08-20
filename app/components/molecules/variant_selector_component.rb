@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Molecules::VariantSelectorComponent < ViewComponent::Base
   attr_reader :product, :available_options, :selected_options, :classes
 

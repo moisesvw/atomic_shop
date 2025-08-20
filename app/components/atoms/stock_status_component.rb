@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Atoms::StockStatusComponent < ViewComponent::Base
   attr_reader :in_stock, :quantity, :low_stock_threshold, :show_quantity, :classes
 

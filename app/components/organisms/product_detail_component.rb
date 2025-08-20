@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Organisms::ProductDetailComponent < ViewComponent::Base
   attr_reader :product, :variants, :available_options, :selected_variant,
               :selected_options, :reviews, :classes

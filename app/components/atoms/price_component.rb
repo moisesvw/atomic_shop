@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Atoms::PriceComponent < ViewComponent::Base
   attr_reader :price, :original_price, :size, :classes
 
