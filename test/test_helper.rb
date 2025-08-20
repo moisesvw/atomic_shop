@@ -154,5 +154,56 @@ module ActiveSupport
       assert_equal expected_count, query_count,
         "Expected #{expected_count} database queries, but #{query_count} were executed"
     end
+
+    # 🔐 Authentication Test Helpers
+    #
+    # These helpers provide consistent user creation for testing authentication
+    # features across the application. They ensure strong passwords and proper
+    # test data setup.
+
+    # Create a valid user with strong password for testing
+    def create_valid_user(attributes = {})
+      default_attributes = {
+        first_name: "Test",
+        last_name: "User",
+        email: "test#{SecureRandom.hex(4)}@example.com",
+        password: "TestPassword123",
+        password_confirmation: "TestPassword123"
+      }
+
+      User.create!(default_attributes.merge(attributes))
+    end
+
+    # Build a valid user without saving (for validation tests)
+    def build_valid_user(attributes = {})
+      default_attributes = {
+        first_name: "Test",
+        last_name: "User",
+        email: "test#{SecureRandom.hex(4)}@example.com",
+        password: "TestPassword123",
+        password_confirmation: "TestPassword123"
+      }
+
+      User.new(default_attributes.merge(attributes))
+    end
+
+    # Create a verified user (email verified)
+    def create_verified_user(attributes = {})
+      user = create_valid_user(attributes)
+      user.verify_email!
+      user
+    end
+
+    # Create a locked user (for testing lockout scenarios)
+    def create_locked_user(attributes = {})
+      user = create_valid_user(attributes)
+      user.lock_account!
+      user
+    end
+
+    # Create an admin user
+    def create_admin_user(attributes = {})
+      create_valid_user(attributes.merge(role: :admin))
+    end
   end
 end
