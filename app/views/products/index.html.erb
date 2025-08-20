@@ -1,35 +1,78 @@
-<div class="container mx-auto py-8">
-  <h1 class="text-3xl font-bold mb-6">Products</h1>
-  
-  <% if @category %>
-    <div class="mb-4">
-      <h2 class="text-xl font-semibold">Category: <%= @category.name %></h2>
+<div class="container mx-auto px-4 py-8">
+  <!-- Header Section -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4 md:mb-0">
+      <%= @category ? "#{@category.name} Products" : "All Products" %>
+    </h1>
+
+    <!-- Search and Filter Controls -->
+    <div class="flex flex-col sm:flex-row gap-4">
+      <%= form_with url: products_path, method: :get, local: true, class: "flex flex-col sm:flex-row gap-2" do |form| %>
+        <%= form.text_field :search,
+            placeholder: "Search products...",
+            value: params[:search],
+            class: "px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+
+        <%= form.select :category_id,
+            options_from_collection_for_select(Category.all, :id, :name, params[:category_id]),
+            { prompt: "All Categories" },
+            { class: "px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" } %>
+
+        <%= form.select :sort,
+            options_for_select([
+              ["Name", "name"],
+              ["Price: Low to High", "price_asc"],
+              ["Price: High to Low", "price_desc"],
+              ["Newest", "newest"]
+            ], params[:sort]),
+            { prompt: "Sort by" },
+            { class: "px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" } %>
+
+        <%= form.submit "Filter", class: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors" %>
+      <% end %>
     </div>
-  <% end %>
-  
+  </div>
+
+  <!-- Results Summary -->
+  <div class="mb-6">
+    <p class="text-gray-600">
+      Showing <%= @products.count %> products
+      <% if params[:search].present? %>
+        for "<%= params[:search] %>"
+      <% end %>
+      <% if @category %>
+        in <%= @category.name %>
+      <% end %>
+    </p>
+  </div>
+
+  <!-- Product Grid using Atomic Components -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
     <% @products.each do |product| %>
-      <div class="product-card border rounded-lg overflow-hidden shadow-md">
-        <div class="p-4">
-          <h3 class="text-lg font-semibold mb-2"><%= product.name %></h3>
-          <p class="text-gray-700 mb-2 line-clamp-2"><%= product.description %></p>
-          <p class="text-gray-900 font-bold"><%= product.price_range %></p>
-          
-          <div class="mt-4">
-            <%= link_to "View Details", product_path(product), class: "inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" %>
-          </div>
-        </div>
-      </div>
+      <%= render Molecules::ProductCardComponent.new(product: product) %>
     <% end %>
   </div>
-  
+
+  <!-- Empty State -->
   <% if @products.empty? %>
-    <div class="text-center py-8">
-      <p class="text-gray-500">No products found.</p>
+    <div class="text-center py-12">
+      <div class="max-w-md mx-auto">
+        <div class="text-gray-400 mb-4">
+          <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-4m-4 0H8m4 0V9" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No products found</h3>
+        <p class="text-gray-500 mb-4">Try adjusting your search or filter criteria.</p>
+        <%= link_to "View All Products", products_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+      </div>
     </div>
   <% end %>
-  
-  <div class="mt-8">
-    <%= paginate @products %>
-  </div>
+
+  <!-- Pagination -->
+  <% if @products.respond_to?(:current_page) && @products.total_pages > 1 %>
+    <div class="mt-8 flex justify-center">
+      <%= paginate @products, theme: 'twitter-bootstrap-4' %>
+    </div>
+  <% end %>
 </div>
