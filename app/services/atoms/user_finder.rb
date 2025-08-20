@@ -91,7 +91,9 @@ module Atoms
       def search_by_email(query, limit: 10)
         return User.none if query.blank?
 
-        User.where("email ILIKE ?", "%#{query}%")
+        # Use LIKE for SQLite compatibility, ILIKE for PostgreSQL
+        operator = Rails.env.production? ? "ILIKE" : "LIKE"
+        User.where("email #{operator} ?", "%#{query}%")
             .limit(limit)
             .order(:email)
       end

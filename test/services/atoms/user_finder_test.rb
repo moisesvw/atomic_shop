@@ -45,7 +45,9 @@ class Atoms::UserFinderTest < ActiveSupport::TestCase
 
   test "should find user by reset token" do
     @user.generate_password_reset_token!
-    user = Atoms::UserFinder.by_reset_token(@user.password_reset_token)
+    # Use the actual database value for the token
+    token = @user.read_attribute(:password_reset_token)
+    user = Atoms::UserFinder.by_reset_token(token)
     assert_equal @user, user
   end
 
