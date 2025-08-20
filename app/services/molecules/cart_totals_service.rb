@@ -125,11 +125,13 @@ module Services
 
         # For now, simulate discount codes (in real app, would lookup from database)
         additional_discounts = simulate_discount_codes(discount_codes, base_result[:data][:subtotal_cents])
-        
+
         if additional_discounts.any?
           # Recalculate with additional discounts
           recalculate_with_additional_discounts(base_result[:data], additional_discounts)
         else
+          # Return failure if no valid discount codes were found
+          return failure("Invalid discount code(s)") if discount_codes.any?
           base_result
         end
       rescue StandardError => e

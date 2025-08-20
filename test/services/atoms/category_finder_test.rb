@@ -307,9 +307,10 @@ class Services::Atoms::CategoryFinderTest < ActiveSupport::TestCase
   private
 
   def create_category(attributes = {})
+    unique_id = "#{Process.pid}-#{Thread.current.object_id}-#{SecureRandom.hex(8)}"
     Category.create!({
       name: "Test Category",
-      slug: "test-category-#{rand(100000)}"
+      slug: "test-category-#{unique_id}"
     }.merge(attributes))
   end
 
