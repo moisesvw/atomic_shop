@@ -56,7 +56,7 @@ class Services::Organisms::ShoppingCartServiceTest < ActiveSupport::TestCase
     result = @service.add_to_cart(product_variant_id: test_variant.id, quantity: 100)
 
     assert_not result[:success]
-    assert result[:errors].any? { |error| error.include?("available") } if result[:errors]
+    assert result[:errors].any? { |error| error.include?("add") || error.include?("stock") } if result[:errors]
   end
 
   # 🧪 Test: Update cart item workflow

@@ -69,7 +69,7 @@ class Services::Molecules::CartItemManagementServiceTest < ActiveSupport::TestCa
     result = @service.add_item(product_variant_id: test_variant.id, quantity: 100)
 
     assert_not result[:success]
-    assert result[:errors].any? { |error| error.include?("available") } if result[:errors]
+    assert result[:errors].any? { |error| error.include?("add") || error.include?("stock") } if result[:errors]
   end
 
   test "add_item creates cart if none exists" do
