@@ -12,12 +12,12 @@ class Services::Atoms::CategoryFinderTest < ActiveSupport::TestCase
   def setup
     @finder = Services::Atoms::CategoryFinder.new
 
-    # Create hierarchical category structure
-    @electronics = create_category(name: "Electronics", slug: "electronics")
-    @phones = create_category(name: "Phones", slug: "phones", parent: @electronics)
-    @laptops = create_category(name: "Laptops", slug: "laptops", parent: @electronics)
-    @books = create_category(name: "Books", slug: "books")
-    @fiction = create_category(name: "Fiction", slug: "fiction", parent: @books)
+    # Use fixture categories and create additional ones with unique slugs
+    @electronics = categories(:electronics)
+    @phones = create_category(name: "Phones", parent: @electronics)
+    @laptops = categories(:laptops)
+    @books = create_category(name: "Books")
+    @fiction = create_category(name: "Fiction", parent: @books)
 
     # Create products for testing
     @product1 = create_product(category: @phones)

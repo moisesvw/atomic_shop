@@ -9,19 +9,14 @@ class Services::Molecules::CategoryNavigationServiceTest < ActiveSupport::TestCa
   # using comprehensive test coverage for hierarchical navigation functionality.
 
   def setup
-    # Create hierarchical category structure
-    @root_category = create_category(name: "Electronics", slug: "electronics")
+    # Use fixture categories and create additional ones with unique slugs
+    @root_category = categories(:electronics)
     @phones_category = create_category(
       name: "Phones",
-      slug: "phones",
       parent: @root_category
     )
-    @laptops_category = create_category(
-      name: "Laptops",
-      slug: "laptops",
-      parent: @root_category
-    )
-    @books_category = create_category(name: "Books", slug: "books")
+    @laptops_category = categories(:laptops)
+    @books_category = create_category(name: "Books")
 
     # Create products
     @phone_product = create_product(category: @phones_category)
