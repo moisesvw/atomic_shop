@@ -30,6 +30,30 @@ class Product < ApplicationRecord
     product_variants.any?(&:in_stock?)
   end
 
+  def total_stock
+    product_variants.sum(:stock_quantity)
+  end
+
+  def lowest_price
+    product_variants.minimum(:price_cents)
+  end
+
+  def highest_price
+    product_variants.maximum(:price_cents)
+  end
+
+  def review_count
+    reviews.count
+  end
+
+  def default_variant
+    product_variants.first
+  end
+
+  def available_variants
+    product_variants.where("stock_quantity > 0")
+  end
+
   private
 
   def format_price(cents)

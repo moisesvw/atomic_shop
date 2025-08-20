@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Atoms::StockStatusComponent < ViewComponent::Base
-  attr_reader :in_stock, :quantity, :low_stock_threshold, :show_quantity, :classes
+  attr_reader :stock_quantity, :low_stock_threshold, :show_quantity, :size, :classes
 
-  def initialize(in_stock:, quantity: nil, low_stock_threshold: 5, show_quantity: false, classes: "")
-    @in_stock = in_stock
-    @quantity = quantity
+  def initialize(stock_quantity:, low_stock_threshold: 5, show_quantity: false, size: :medium, classes: "")
+    @stock_quantity = stock_quantity
     @low_stock_threshold = low_stock_threshold
     @show_quantity = show_quantity
+    @size = size
     @classes = classes
   end
 
@@ -19,7 +19,7 @@ class Atoms::StockStatusComponent < ViewComponent::Base
   end
 
   def status_class
-    if !in_stock
+    if out_of_stock?
       "out-of-stock"
     elsif low_stock?
       "low-stock"
@@ -29,7 +29,7 @@ class Atoms::StockStatusComponent < ViewComponent::Base
   end
 
   def status_text
-    if !in_stock
+    if out_of_stock?
       "Out of Stock"
     elsif low_stock?
       "Low Stock"
@@ -38,7 +38,15 @@ class Atoms::StockStatusComponent < ViewComponent::Base
     end
   end
 
+  def in_stock?
+    stock_quantity && stock_quantity > 0
+  end
+
+  def out_of_stock?
+    !in_stock?
+  end
+
   def low_stock?
-    in_stock && quantity && quantity <= low_stock_threshold
+    in_stock? && stock_quantity <= low_stock_threshold
   end
 end

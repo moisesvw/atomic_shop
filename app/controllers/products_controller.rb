@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProductsController < ApplicationController
   def index
     @category = params[:category_id] ? Category.find_by(id: params[:category_id]) : nil

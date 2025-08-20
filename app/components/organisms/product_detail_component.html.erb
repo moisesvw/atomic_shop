@@ -20,9 +20,9 @@
 
       <div class="product-price">
         <% if selected_variant %>
-          <%= render(Atoms::PriceComponent.new(price: selected_variant.price, size: :large)) %>
+          <%= render(Atoms::PriceComponent.new(price_cents: selected_variant.price_cents, size: :large)) %>
         <% else %>
-          <%= render(Atoms::PriceComponent.new(price: product.price_range, size: :large)) %>
+          <%= render(Atoms::PriceComponent.new(price_cents: product.lowest_price, size: :large)) %>
         <% end %>
       </div>
 
@@ -44,8 +44,7 @@
       <!-- Stock Status -->
       <div class="product-stock">
         <%= render(Atoms::StockStatusComponent.new(
-          in_stock: in_stock?,
-          quantity: available_quantity,
+          stock_quantity: available_quantity,
           low_stock_threshold: 5,
           show_quantity: true
         )) %>
