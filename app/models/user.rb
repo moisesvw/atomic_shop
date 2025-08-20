@@ -78,6 +78,7 @@ class User < ApplicationRecord
       password_reset_token: token,
       password_reset_sent_at: Time.current
     )
+    token # Return the token for immediate use
   end
 
   def clear_password_reset_token!
