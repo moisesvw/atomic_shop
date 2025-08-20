@@ -1,0 +1,54 @@
+<div class="<%= card_classes %>">
+  <div class="product-card-image">
+    <a href="<%= product_path(product) %>">
+      <img src="<%= primary_image %>" alt="<%= product.name %>">
+    </a>
+  </div>
+
+  <div class="product-card-content">
+    <h3 class="product-card-title">
+      <a href="<%= product_path(product) %>"><%= product.name %></a>
+    </h3>
+    
+    <div class="product-card-price">
+      <%= render(Atoms::PriceComponent.new(price: price_display)) %>
+    </div>
+
+    <% if product.average_rating %>
+      <div class="product-card-rating">
+        <%= render(Atoms::RatingComponent.new(rating: product.average_rating, size: :small)) %>
+      </div>
+    <% end %>
+    
+    <div class="product-card-stock">
+      <%= render(Atoms::StockStatusComponent.new(in_stock: in_stock?)) %>
+    </div>
+  </div>
+
+  <% if show_actions %>
+    <div class="product-card-actions">
+      <%= render(Atoms::ButtonComponent.new(
+        label: "View Details",
+        type: :secondary,
+        size: :small,
+        data: { product_id: product.id }
+      )) %>
+
+      <% if in_stock? %>
+        <%= render(Atoms::ButtonComponent.new(
+          label: "Add to Cart",
+          icon: "cart",
+          size: :small,
+          data: { action: "cart#add", product_id: product.id }
+        )) %>
+      <% else %>
+        <%= render(Atoms::ButtonComponent.new(
+          label: "Out of Stock",
+          type: :disabled,
+          disabled: true,
+          size: :small
+        )) %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

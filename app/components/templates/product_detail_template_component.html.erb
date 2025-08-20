@@ -1,0 +1,45 @@
+<div class="product-detail-template">
+  <!-- Breadcrumb Navigation -->
+  <div class="breadcrumb-container">
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <% breadcrumb_items.each do |item| %>
+          <li class="breadcrumb-item <%= 'active' unless item[:url] %>">
+            <% if item[:url] %>
+              <a href="<%= item[:url] %>"><%= item[:name] %></a>
+            <% else %>
+              <%= item[:name] %>
+            <% end %>
+          </li>
+        <% end %>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- Main Product Detail -->
+  <div class="product-detail-container">
+    <%= render(Organisms::ProductDetailComponent.new(
+      product: product,
+      variants: variants,
+      available_options: available_options,
+      selected_variant: selected_variant,
+      selected_options: selected_options,
+      reviews: reviews
+    )) %>
+  </div>
+
+  <!-- Related Products Section -->
+  <% if has_related_products? %>
+    <div class="related-products-section">
+      <h2 class="section-title">You May Also Like</h2>
+      <%= render(Organisms::ProductGridComponent.new(
+        products: related_products,
+        columns: 4
+      )) %>
+    </div>
+  <% end %>
+
+  <!-- Recently Viewed Products (could be implemented later) -->
+  
+  <!-- Product FAQ Section (could be implemented later) -->
+</div>

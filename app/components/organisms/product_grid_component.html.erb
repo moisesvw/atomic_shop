@@ -1,0 +1,15 @@
+<section class="product-grid-section">
+  <% if title %>
+    <div class="section-header">
+      <h2 class="section-title"><%= title %></h2>
+    </div>
+  <% end %>
+
+  <div class="<%= grid_classes %>">
+    <% products.each do |product| %>
+      <div class="product-grid-item">
+        <%= render(Molecules::ProductCardComponent.new(product: product)) %>
+      </div>
+    <% end %>
+  </div>
+</section>

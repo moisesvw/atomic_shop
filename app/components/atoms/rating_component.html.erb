@@ -1,0 +1,19 @@
+<div class="<%= rating_classes %>">
+  <div class="stars">
+    <% full_stars.times do %>
+      <i class="fas fa-star star-full"></i>
+    <% end %>
+    
+    <% if half_star? %>
+      <i class="fas fa-star-half-alt star-half"></i>
+    <% end %>
+    
+    <% empty_stars.times do %>
+      <i class="far fa-star star-empty"></i>
+    <% end %>
+  </div>
+  
+  <% if show_value && rating > 0 %>
+    <span class="rating-value"><%= formatted_rating %></span>
+  <% end %>
+</div>

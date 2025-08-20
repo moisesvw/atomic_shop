@@ -1,0 +1,22 @@
+<div class="<%= review_classes %>">
+  <div class="review-header">
+    <div class="reviewer-info">
+      <span class="reviewer-name"><%= reviewer_name %></span>
+      <span class="review-date"><%= formatted_date %></span>
+    </div>
+    
+    <div class="review-rating">
+      <%= render(Atoms::RatingComponent.new(rating: review.rating, size: :small)) %>
+    </div>
+  </div>
+  
+  <div class="review-content">
+    <% if review.title.present? %>
+      <h4 class="review-title"><%= review.title %></h4>
+    <% end %>
+    
+    <div class="review-body">
+      <%= review.content %>
+    </div>
+  </div>
+</div>
