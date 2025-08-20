@@ -1,0 +1,54 @@
+<button id="<%= button_id %>" <%= tag.attributes(button_attributes) %>>
+  <!-- Loading Spinner -->
+  <svg class="<%= spinner_classes %>" data-loading-spinner xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+  </svg>
+  
+  <!-- Button Text -->
+  <span data-button-text><%= text %></span>
+</button>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const button = document.getElementById('<%= button_id %>');
+    const form = button.form || (button.getAttribute('form') ? document.getElementById(button.getAttribute('form')) : null);
+    
+    if (form) {
+      // Store original text
+      const originalText = button.querySelector('[data-button-text]').textContent;
+      button.setAttribute('data-original-text', originalText);
+      
+      form.addEventListener('submit', function() {
+        setButtonLoading(button, true);
+      });
+      
+      // Reset button state if form submission fails (for AJAX forms)
+      form.addEventListener('ajax:error', function() {
+        setButtonLoading(button, false);
+      });
+      
+      // Reset button state on page unload (for non-AJAX forms)
+      window.addEventListener('beforeunload', function() {
+        setButtonLoading(button, false);
+      });
+    }
+  });
+
+  function setButtonLoading(button, loading) {
+    const spinner = button.querySelector('[data-loading-spinner]');
+    const text = button.querySelector('[data-button-text]');
+    const loadingText = button.getAttribute('data-loading-text');
+    const originalText = button.getAttribute('data-original-text');
+    
+    if (loading) {
+      button.disabled = true;
+      spinner.classList.remove('hidden');
+      text.textContent = loadingText;
+    } else {
+      button.disabled = false;
+      spinner.classList.add('hidden');
+      text.textContent = originalText;
+    }
+  }
+</script>
