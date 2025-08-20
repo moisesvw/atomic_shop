@@ -1,0 +1,52 @@
+<% content_for :title, "Create Account" %>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <!-- Logo/Brand -->
+    <div class="text-center">
+      <%= link_to root_path, class: "inline-block" do %>
+        <h1 class="text-3xl font-bold text-blue-600">Atomic Shop</h1>
+        <p class="text-sm text-gray-500 mt-1">Join thousands of satisfied customers</p>
+      <% end %>
+    </div>
+
+    <!-- Registration Form Component -->
+    <%= render(Molecules::RegistrationFormComponent.new(
+      user: @user,
+      return_to: @return_to
+    )) %>
+
+    <!-- Additional Information -->
+    <div class="text-center space-y-4">
+      <!-- Benefits -->
+      <div class="bg-blue-50 rounded-lg p-4">
+        <h3 class="text-sm font-medium text-blue-900 mb-2">Why join Atomic Shop?</h3>
+        <ul class="text-xs text-blue-700 space-y-1">
+          <li class="flex items-center">
+            <i class="fas fa-check text-blue-600 mr-2"></i>
+            Exclusive member discounts
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-blue-600 mr-2"></i>
+            Free shipping on orders over $50
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-blue-600 mr-2"></i>
+            Early access to new products
+          </li>
+          <li class="flex items-center">
+            <i class="fas fa-check text-blue-600 mr-2"></i>
+            24/7 customer support
+          </li>
+        </ul>
+      </div>
+
+      <!-- Help Link -->
+      <div class="text-sm">
+        <%= link_to "Need help?", 
+            support_path, 
+            class: "text-blue-600 hover:text-blue-500 transition-colors duration-200" %>
+      </div>
+    </div>
+  </div>
+</div>

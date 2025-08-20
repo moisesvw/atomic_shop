@@ -12,6 +12,19 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "products#index"
 
+  # Authentication routes
+  get    "/login",  to: "sessions#new",     as: :new_session
+  post   "/sessions", to: "sessions#create", as: :sessions
+  delete "/logout", to: "sessions#destroy", as: :destroy_session
+
+  get  "/register", to: "registrations#new",    as: :new_registration
+  post "/registrations", to: "registrations#create", as: :registrations
+
+  # Static pages (placeholders for now)
+  get "/terms",   to: "pages#terms",   as: :terms
+  get "/privacy", to: "pages#privacy", as: :privacy
+  get "/support", to: "pages#support", as: :support
+
   resources :products do
     member do
       get "select_variant"

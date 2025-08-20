@@ -1,0 +1,119 @@
+<div class="<%= form_classes %>">
+  <!-- Header -->
+  <div class="<%= header_classes %>">
+    <h2 class="<%= title_classes %>">Create your account</h2>
+    <p class="<%= subtitle_classes %>">Join Atomic Shop today</p>
+  </div>
+
+  <!-- Registration Form -->
+  <%= form_with model: user, url: registrations_path, method: :post, local: true, class: "space-y-6" do |form| %>
+    <!-- Hidden Return To Field -->
+    <% if return_to.present? %>
+      <%= form.hidden_field :return_to, value: return_to %>
+    <% end %>
+
+    <!-- Name Fields -->
+    <div class="<%= name_fields_classes %>">
+      <!-- First Name -->
+      <%= render(Atoms::FormFieldComponent.new(
+        name: "user[first_name]",
+        label: "First name",
+        type: :text,
+        value: user.first_name,
+        error: field_error(:first_name),
+        required: true,
+        autocomplete: "given-name"
+      )) %>
+
+      <!-- Last Name -->
+      <%= render(Atoms::FormFieldComponent.new(
+        name: "user[last_name]",
+        label: "Last name",
+        type: :text,
+        value: user.last_name,
+        error: field_error(:last_name),
+        required: true,
+        autocomplete: "family-name"
+      )) %>
+    </div>
+
+    <!-- Email Field -->
+    <%= render(Atoms::FormFieldComponent.new(
+      name: "user[email]",
+      label: "Email address",
+      type: :email,
+      value: user.email,
+      error: field_error(:email),
+      required: true,
+      autocomplete: "email",
+      help_text: "We'll use this to send you important updates"
+    )) %>
+
+    <!-- Password Field -->
+    <%= render(Atoms::PasswordFieldComponent.new(
+      name: "user[password]",
+      label: "Password",
+      error: field_error(:password),
+      required: true,
+      autocomplete: "new-password",
+      show_toggle: true,
+      show_strength: true,
+      show_requirements: true
+    )) %>
+
+    <!-- Password Confirmation Field -->
+    <%= render(Atoms::PasswordFieldComponent.new(
+      name: "user[password_confirmation]",
+      label: "Confirm password",
+      error: field_error(:password_confirmation),
+      required: true,
+      autocomplete: "new-password",
+      show_toggle: true
+    )) %>
+
+    <!-- Terms of Service -->
+    <div class="<%= terms_wrapper_classes %>">
+      <%= form.check_box :terms_accepted, 
+          { class: terms_checkbox_classes, required: true },
+          "1", "0" %>
+      <label for="user_terms_accepted" class="<%= terms_label_classes %>">
+        I agree to the 
+        <%= link_to "Terms of Service", 
+            terms_path, 
+            target: "_blank", 
+            class: terms_link_classes %>
+        and 
+        <%= link_to "Privacy Policy", 
+            privacy_path, 
+            target: "_blank", 
+            class: terms_link_classes %>
+      </label>
+    </div>
+
+    <!-- Submit Button -->
+    <%= render(Atoms::SubmitButtonComponent.new(
+      text: "Create account",
+      loading_text: "Creating account...",
+      variant: :primary,
+      size: :large,
+      classes: "w-full"
+    )) %>
+  <% end %>
+
+  <!-- Divider -->
+  <div class="<%= divider_classes %>">
+    <div class="absolute inset-0 flex items-center">
+      <div class="w-full border-t border-gray-300"></div>
+    </div>
+    <div class="relative bg-white px-4">
+      <span>Already have an account?</span>
+    </div>
+  </div>
+
+  <!-- Sign In Link -->
+  <div class="<%= signin_link_classes %>">
+    <%= link_to "Sign in to your account", 
+        new_session_path, 
+        class: signin_link_anchor_classes %>
+  </div>
+</div>

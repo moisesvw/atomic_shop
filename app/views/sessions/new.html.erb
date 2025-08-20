@@ -1,0 +1,40 @@
+<% content_for :title, "Sign In" %>
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <!-- Logo/Brand -->
+    <div class="text-center">
+      <%= link_to root_path, class: "inline-block" do %>
+        <h1 class="text-3xl font-bold text-blue-600">Atomic Shop</h1>
+        <p class="text-sm text-gray-500 mt-1">Premium E-commerce Experience</p>
+      <% end %>
+    </div>
+
+    <!-- Login Form Component -->
+    <%= render(Molecules::LoginFormComponent.new(
+      user: @user,
+      return_to: @return_to,
+      errors: @errors || {}
+    )) %>
+
+    <!-- Additional Links -->
+    <div class="text-center space-y-2">
+      <div class="text-sm">
+        <%= link_to "Need help?", 
+            support_path, 
+            class: "text-blue-600 hover:text-blue-500 transition-colors duration-200" %>
+      </div>
+      
+      <div class="text-xs text-gray-500">
+        By signing in, you agree to our 
+        <%= link_to "Terms of Service", 
+            terms_path, 
+            class: "text-blue-600 hover:text-blue-500" %>
+        and 
+        <%= link_to "Privacy Policy", 
+            privacy_path, 
+            class: "text-blue-600 hover:text-blue-500" %>
+      </div>
+    </div>
+  </div>
+</div>

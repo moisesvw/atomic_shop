@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_20_050000) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_20_060000) do
   create_table "addresses", force: :cascade do |t|
     t.string "street"
     t.string "city"
@@ -22,6 +22,29 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_050000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable"
+  end
+
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "cart_id", null: false
+    t.integer "product_variant_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id", "product_variant_id"], name: "index_cart_items_on_cart_id_and_product_variant_id", unique: true
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["product_variant_id"], name: "index_cart_items_on_product_variant_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "session_id"
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["session_id", "status"], name: "index_carts_on_session_id_and_status"
+    t.index ["session_id"], name: "index_carts_on_session_id"
+    t.index ["user_id", "status"], name: "index_carts_on_user_id_and_status"
+    t.index ["user_id"], name: "index_carts_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -119,6 +142,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_050000) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_sessions", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "session_token", null: false
+    t.string "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "last_activity_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["last_activity_at"], name: "index_user_sessions_on_last_activity_at"
+    t.index ["remember_token"], name: "index_user_sessions_on_remember_token", unique: true
+    t.index ["remember_token_expires_at"], name: "index_user_sessions_on_remember_token_expires_at"
+    t.index ["session_token"], name: "index_user_sessions_on_session_token", unique: true
+    t.index ["user_id"], name: "index_user_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -152,6 +192,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_050000) do
     t.index ["role"], name: "index_users_on_role"
   end
 
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "product_variants"
+  add_foreign_key "carts", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "product_variants"
   add_foreign_key "orders", "shipping_methods"
@@ -161,4 +204,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_20_050000) do
   add_foreign_key "products", "categories"
   add_foreign_key "reviews", "products"
   add_foreign_key "reviews", "users"
+  add_foreign_key "user_sessions", "users"
 end

@@ -1,0 +1,27 @@
+<div class="form-field">
+  <!-- Label -->
+  <label for="<%= field_id %>" class="<%= label_classes %>">
+    <%= label %>
+    <% if required %>
+      <span class="text-red-500 ml-1" aria-label="required">*</span>
+    <% end %>
+  </label>
+
+  <!-- Input Field -->
+  <%= tag.input(**input_attributes) %>
+
+  <!-- Error Message -->
+  <% if has_error? %>
+    <div id="<%= error_id %>" class="<%= error_classes %>" role="alert">
+      <i class="fas fa-exclamation-circle mr-1" aria-hidden="true"></i>
+      <%= error %>
+    </div>
+  <% end %>
+
+  <!-- Help Text -->
+  <% if help_text.present? && !has_error? %>
+    <div class="<%= help_text_classes %>">
+      <%= help_text %>
+    </div>
+  <% end %>
+</div>

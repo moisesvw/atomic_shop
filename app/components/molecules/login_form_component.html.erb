@@ -1,0 +1,91 @@
+<div class="<%= form_classes %>">
+  <!-- Header -->
+  <div class="<%= header_classes %>">
+    <h2 class="<%= title_classes %>">Welcome back</h2>
+    <p class="<%= subtitle_classes %>">Sign in to your account</p>
+  </div>
+
+  <!-- Base Error (for authentication failures) -->
+  <% if base_error %>
+    <div class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+      <div class="flex">
+        <i class="fas fa-exclamation-circle text-red-400 mr-3 mt-0.5"></i>
+        <div class="text-sm text-red-700">
+          <%= base_error %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Login Form -->
+  <%= form_with url: sessions_path, method: :post, local: true, class: "space-y-6" do |form| %>
+    <!-- Hidden Return To Field -->
+    <% if return_to.present? %>
+      <%= form.hidden_field :return_to, value: return_to %>
+    <% end %>
+
+    <!-- Email Field -->
+    <%= render(Atoms::FormFieldComponent.new(
+      name: "email",
+      label: "Email address",
+      type: :email,
+      value: user.email,
+      error: email_error,
+      required: true,
+      autocomplete: "email"
+    )) %>
+
+    <!-- Password Field -->
+    <%= render(Atoms::PasswordFieldComponent.new(
+      name: "password",
+      label: "Password",
+      error: password_error,
+      required: true,
+      autocomplete: "current-password",
+      show_toggle: true
+    )) %>
+
+    <!-- Remember Me & Forgot Password -->
+    <div class="<%= remember_me_classes %>">
+      <div class="<%= checkbox_wrapper_classes %>">
+        <%= form.check_box :remember_me, 
+            { checked: remember_me, class: checkbox_classes },
+            "1", "0" %>
+        <label for="remember_me" class="<%= checkbox_label_classes %>">
+          Remember me
+        </label>
+      </div>
+
+      <%= link_to "Forgot your password?", 
+          new_password_reset_path, 
+          class: forgot_password_classes %>
+    </div>
+
+    <!-- Submit Button -->
+    <%= render(Atoms::SubmitButtonComponent.new(
+      text: "Sign in",
+      loading_text: "Signing in...",
+      variant: :primary,
+      size: :large,
+      classes: "w-full"
+    )) %>
+  <% end %>
+
+  <!-- Divider -->
+  <div class="<%= divider_classes %>">
+    <div class="absolute inset-0 flex items-center">
+      <div class="w-full border-t border-gray-300"></div>
+    </div>
+    <div class="relative bg-white px-4">
+      <span>New to Atomic Shop?</span>
+    </div>
+  </div>
+
+  <!-- Sign Up Link -->
+  <div class="<%= signup_link_classes %>">
+    <span>Don't have an account? </span>
+    <%= link_to "Create one now", 
+        new_registration_path, 
+        class: signup_link_anchor_classes %>
+  </div>
+</div>
