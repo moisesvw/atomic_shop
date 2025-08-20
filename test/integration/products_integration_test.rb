@@ -3,7 +3,12 @@ require "test_helper"
 class ProductsIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     # Create a category
-    @category = Category.create!(name: "Electronics", description: "Electronic devices")
+    unique_id = "#{Process.pid}-#{Thread.current.object_id}-#{SecureRandom.hex(8)}"
+    @category = Category.create!(
+      name: "Electronics",
+      slug: "electronics-#{unique_id}",
+      description: "Electronic devices"
+    )
 
     # Create a product
     @product = Product.create!(

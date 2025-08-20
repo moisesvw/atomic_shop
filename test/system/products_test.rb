@@ -2,8 +2,13 @@ require "application_system_test_case"
 
 class ProductsTest < ApplicationSystemTestCase
   setup do
-    # Create a category
-    @category = Category.create!(name: "Electronics", description: "Electronic devices")
+    # Create a category with unique slug to avoid conflicts
+    unique_id = "#{Process.pid}-#{Thread.current.object_id}-#{SecureRandom.hex(8)}"
+    @category = Category.create!(
+      name: "Test Electronics",
+      slug: "test-electronics-#{unique_id}",
+      description: "Electronic devices for testing"
+    )
 
     # Create a product
     @product = Product.create!(

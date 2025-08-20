@@ -1,0 +1,51 @@
+# Product variant fixtures for testing
+
+one:
+  product: smartphone
+  sku: "PHONE-BLK-128"
+  price_cents: 79999  # $799.99
+  stock_quantity: 50
+  weight: 0.2
+  options: '{"color": "Black", "storage": "128GB"}'
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 1.day.ago %>
+
+two:
+  product: smartphone
+  sku: "PHONE-SLV-256"
+  price_cents: 89999  # $899.99
+  stock_quantity: 30
+  weight: 0.2
+  options: '{"color": "Silver", "storage": "256GB"}'
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 1.day.ago %>
+
+three:
+  product: laptop
+  sku: "LAPTOP-BLK-16GB"
+  price_cents: 149999  # $1499.99
+  stock_quantity: 15
+  weight: 2.5
+  options: '{"color": "Black", "ram": "16GB"}'
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 1.day.ago %>
+
+four:
+  product: tshirt
+  sku: "TSHIRT-RED-L"
+  price_cents: 2999  # $29.99
+  stock_quantity: 100
+  weight: 0.3
+  options: '{"color": "Red", "size": "L"}'
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 1.day.ago %>
+
+five:
+  product: headphones
+  sku: "HEADPHONES-BLK"
+  price_cents: 19999  # $199.99
+  stock_quantity: 25
+  weight: 0.4
+  options: '{"color": "Black"}'
+  created_at: <%= 2.weeks.ago %>
+  updated_at: <%= 1.day.ago %>
