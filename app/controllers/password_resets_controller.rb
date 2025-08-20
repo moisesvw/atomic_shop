@@ -14,8 +14,8 @@ class PasswordResetsController < ApplicationController
   # - Rate limiting protection
   # - Comprehensive audit logging
 
-  before_action :find_user_by_token, only: [:show, :update]
-  before_action :check_token_expiration, only: [:show, :update]
+  before_action :find_user_by_token, only: [ :show, :update ]
+  before_action :check_token_expiration, only: [ :show, :update ]
 
   def new
     # Display password reset request form
@@ -25,9 +25,9 @@ class PasswordResetsController < ApplicationController
   def create
     # Process password reset request
     @password_reset_form = PasswordResetRequestForm.new(reset_request_params)
-    
+
     result = initiate_password_reset(@password_reset_form)
-    
+
     if result.success?
       handle_successful_reset_request(result)
     else
@@ -43,9 +43,9 @@ class PasswordResetsController < ApplicationController
   def update
     # Process password reset with new password
     @password_update_form = PasswordUpdateForm.new(password_update_params)
-    
+
     result = reset_user_password(@password_update_form)
-    
+
     if result.success?
       handle_successful_password_reset(result)
     else
@@ -61,15 +61,15 @@ class PasswordResetsController < ApplicationController
 
     # Find user by email
     user = user_finder.by_email(form.email)
-    
+
     # Always show success message for security (don't reveal if email exists)
     if user&.active?
       # Generate reset token using atomic service
       reset_token = user.generate_password_reset_token!
-      
+
       # Send reset email
       send_password_reset_email(user, reset_token)
-      
+
       # Log successful reset request
       log_reset_request_success(user)
     else
@@ -99,10 +99,10 @@ class PasswordResetsController < ApplicationController
     if @user.update(password: form.password, password_confirmation: form.password_confirmation)
       # Clear reset token
       @user.clear_password_reset_token!
-      
+
       # Log successful password reset
       log_password_reset_success(@user)
-      
+
       PasswordResetResult.success(
         user: @user,
         message: "Your password has been reset successfully. You can now log in with your new password."
@@ -139,7 +139,7 @@ class PasswordResetsController < ApplicationController
   def find_user_by_token
     token = params[:token] || params.dig(:password_update_form, :token)
     @user = user_finder.by_reset_token(token) if token.present?
-    
+
     unless @user
       redirect_to new_password_reset_path, alert: "Invalid or expired reset token."
     end
@@ -147,10 +147,10 @@ class PasswordResetsController < ApplicationController
 
   def check_token_expiration
     return unless @user
-    
+
     if @user.password_reset_expired?
       @user.clear_password_reset_token!
-      redirect_to new_password_reset_path, 
+      redirect_to new_password_reset_path,
                   alert: "Your password reset token has expired. Please request a new one."
     end
   end

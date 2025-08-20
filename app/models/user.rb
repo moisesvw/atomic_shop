@@ -94,10 +94,7 @@ class User < ApplicationRecord
     password_reset_sent_at < PASSWORD_RESET_EXPIRY.ago
   end
 
-  # Email verification methods
-  def verify_email!
-    update!(email_verified: true, email_verified_at: Time.current, email_verification_token: nil)
-  end
+
 
   def email_verification_expired?
     return true unless email_verification_sent_at

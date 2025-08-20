@@ -30,7 +30,7 @@ class PasswordUpdateForm
 
   def passwords_match
     return unless password.present? && password_confirmation.present?
-    
+
     errors.add(:password_confirmation, "doesn't match password") if password != password_confirmation
   end
 end

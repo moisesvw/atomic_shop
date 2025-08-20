@@ -14,7 +14,7 @@ class RegistrationsController < ApplicationController
   # - Duplicate account prevention
   # - Comprehensive error handling
 
-  before_action :redirect_if_authenticated, only: [:new, :create]
+  before_action :redirect_if_authenticated, only: [ :new, :create ]
 
   def new
     # Display registration form
@@ -24,9 +24,9 @@ class RegistrationsController < ApplicationController
   def create
     # Process registration attempt
     @registration_form = build_registration_form(registration_params)
-    
+
     result = register_user(@registration_form)
-    
+
     if result.success?
       handle_successful_registration(result)
     else
@@ -82,10 +82,10 @@ class RegistrationsController < ApplicationController
       if user.save
         # Log successful registration
         log_registration_success(user)
-        
+
         # Send verification email (in background job in production)
         send_verification_email(user)
-        
+
         user
       else
         Rails.logger.error "User creation failed: #{user.errors.full_messages.join(', ')}"

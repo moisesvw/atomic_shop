@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   # Authentication routes
   # Session management (login/logout)
-  resource :session, only: [:new, :create, :destroy] do
+  resource :session, only: [ :new, :create, :destroy ] do
     collection do
       get :new, as: :new_session  # login form
       post :create               # process login
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
 
   # User registration
-  resource :registration, only: [:new, :create] do
+  resource :registration, only: [ :new, :create ] do
     collection do
       get :new, as: :new_registration  # signup form
       post :create                     # process signup
@@ -31,7 +31,7 @@ Rails.application.routes.draw do
   end
 
   # Password reset workflow
-  resources :password_resets, only: [:new, :create, :show, :update], param: :token do
+  resources :password_resets, only: [ :new, :create, :show, :update ], param: :token do
     collection do
       get :new, as: :new_password_reset    # request reset form
       post :create                         # send reset email
@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   end
 
   # Email verification
-  resources :email_verifications, only: [:show, :create], param: :token do
+  resources :email_verifications, only: [ :show, :create ], param: :token do
     collection do
       post :create, as: :resend_email_verification  # resend verification
     end

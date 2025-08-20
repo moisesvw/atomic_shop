@@ -14,13 +14,13 @@ class EmailVerificationsController < ApplicationController
   # - Rate limiting protection
   # - Comprehensive audit logging
 
-  before_action :find_user_by_token, only: [:show]
-  before_action :require_authentication, only: [:create]
+  before_action :find_user_by_token, only: [ :show ]
+  before_action :require_authentication, only: [ :create ]
 
   def show
     # Process email verification with token
     result = verify_user_email(@user, params[:token])
-    
+
     if result.success?
       handle_successful_verification(result)
     else
@@ -31,7 +31,7 @@ class EmailVerificationsController < ApplicationController
   def create
     # Resend verification email
     result = resend_verification_email(current_user)
-    
+
     if result.success?
       handle_successful_resend(result)
     else
@@ -54,7 +54,7 @@ class EmailVerificationsController < ApplicationController
     # Verify the user
     if user.verify_email!
       log_verification_success(user)
-      
+
       VerificationResult.success(
         user: user,
         message: "Your email has been verified successfully! You can now access all features."
@@ -81,16 +81,16 @@ class EmailVerificationsController < ApplicationController
 
     # Generate new verification token
     new_token = token_generator.email_verification_token
-    
+
     if user.update(
       email_verification_token: new_token,
       email_verification_sent_at: Time.current
     )
       # Send verification email
       send_verification_email(user)
-      
+
       log_resend_success(user)
-      
+
       ResendResult.success(
         "Verification email sent! Please check your inbox and click the verification link."
       )
@@ -107,7 +107,7 @@ class EmailVerificationsController < ApplicationController
     # Auto-login the user after successful verification
     session[:user_id] = result.user.id
     session[:session_id] = session_manager.create_session(result.user).session_id
-    
+
     redirect_to dashboard_path, notice: result.message
   end
 
@@ -128,10 +128,10 @@ class EmailVerificationsController < ApplicationController
   def find_user_by_token
     token = params[:token]
     @user = user_finder.by_verification_token(token) if token.present?
-    
+
     unless @user
       redirect_to new_session_path, alert: "Invalid or expired verification link."
-      return false
+      false
     end
   end
 
@@ -144,7 +144,7 @@ class EmailVerificationsController < ApplicationController
   # Helper methods
   def recently_sent_verification?(user)
     return false unless user.email_verification_sent_at
-    
+
     user.email_verification_sent_at > 1.minute.ago
   end
 

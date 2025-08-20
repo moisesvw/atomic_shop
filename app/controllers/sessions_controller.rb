@@ -14,8 +14,8 @@ class SessionsController < ApplicationController
   # - Suspicious activity detection
   # - Comprehensive audit logging
 
-  before_action :redirect_if_authenticated, only: [:new, :create]
-  before_action :require_authentication, only: [:destroy]
+  before_action :redirect_if_authenticated, only: [ :new, :create ]
+  before_action :require_authentication, only: [ :destroy ]
 
   def new
     # Display login form
@@ -25,9 +25,9 @@ class SessionsController < ApplicationController
   def create
     # Process login attempt
     @login_form = build_login_form(login_params)
-    
+
     result = authenticate_user(@login_form)
-    
+
     if result.success?
       handle_successful_authentication(result)
     else
@@ -38,7 +38,7 @@ class SessionsController < ApplicationController
   def destroy
     # Process logout
     result = logout_current_user
-    
+
     if result.success?
       redirect_to root_path, notice: "You have been logged out successfully."
     else
@@ -57,11 +57,11 @@ class SessionsController < ApplicationController
     return authentication_failure("Invalid email or password") unless user
 
     # Verify password
-    return authentication_failure("Invalid email or password") unless user.authenticate(form.password)
+    return authentication_failure("Invalid email or password", user) unless user.authenticate(form.password)
 
     # Check account status
-    return account_failure("Account is locked") if user.locked?
-    return account_failure("Please verify your email address") unless user.email_verified?
+    return account_failure("Account is locked", user) if user.locked?
+    return account_failure("Please verify your email address", user) unless user.email_verified?
 
     # Check for suspicious activity
     if session_manager.suspicious_activity?(user, request)
@@ -71,7 +71,7 @@ class SessionsController < ApplicationController
 
     # Create session
     session_data = session_manager.create_session(user, remember_me: form.remember_me)
-    
+
     AuthenticationResult.success(
       user: user,
       session: session_data,
@@ -87,12 +87,12 @@ class SessionsController < ApplicationController
 
     # Destroy session using atomic service
     success = session_manager.destroy_session(session[:session_id], current_user.id)
-    
+
     if success
       # Clear session data
       reset_session
       @current_user = nil
-      
+
       LogoutResult.success("Logged out successfully")
     else
       LogoutResult.failure("Error during logout")
@@ -107,10 +107,10 @@ class SessionsController < ApplicationController
     # Store session information
     session[:session_id] = result.session.session_id
     session[:user_id] = result.user.id
-    
+
     # Generate and store session fingerprint for security
     session[:fingerprint] = session_manager.generate_fingerprint(request)
-    
+
     # Set remember me cookie if requested
     if result.session.remember_token
       cookies.permanent.signed[:remember_token] = {
@@ -164,7 +164,7 @@ class SessionsController < ApplicationController
   # Security tracking
   def track_failed_attempt(user)
     user.increment!(:failed_login_attempts)
-    
+
     if user.failed_login_attempts >= User::MAX_FAILED_ATTEMPTS
       user.lock_account!
       Rails.logger.warn "Account locked for user #{user.id} due to failed attempts"
@@ -213,7 +213,7 @@ class SessionsController < ApplicationController
 
   def current_user
     return @current_user if defined?(@current_user)
-    
+
     @current_user = find_current_user
   end
 
@@ -283,12 +283,12 @@ class SessionsController < ApplicationController
     AuthenticationResult.failure(message)
   end
 
-  def authentication_failure(message)
-    AuthenticationResult.failure(message)
+  def authentication_failure(message, user = nil)
+    AuthenticationResult.failure(message, user)
   end
 
-  def account_failure(message)
-    AuthenticationResult.failure(message)
+  def account_failure(message, user = nil)
+    AuthenticationResult.failure(message, user)
   end
 
   def security_failure(message)
