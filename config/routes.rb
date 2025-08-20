@@ -12,6 +12,46 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "products#index"
 
+  # Authentication routes
+  # Session management (login/logout)
+  resource :session, only: [:new, :create, :destroy] do
+    collection do
+      get :new, as: :new_session  # login form
+      post :create               # process login
+      delete :destroy            # logout
+    end
+  end
+
+  # User registration
+  resource :registration, only: [:new, :create] do
+    collection do
+      get :new, as: :new_registration  # signup form
+      post :create                     # process signup
+    end
+  end
+
+  # Password reset workflow
+  resources :password_resets, only: [:new, :create, :show, :update], param: :token do
+    collection do
+      get :new, as: :new_password_reset    # request reset form
+      post :create                         # send reset email
+    end
+    member do
+      get :show, as: :password_reset       # reset form with token
+      patch :update                        # process password reset
+    end
+  end
+
+  # Email verification
+  resources :email_verifications, only: [:show, :create], param: :token do
+    collection do
+      post :create, as: :resend_email_verification  # resend verification
+    end
+    member do
+      get :show, as: :email_verification            # verify email with token
+    end
+  end
+
   resources :products do
     member do
       get "select_variant"
