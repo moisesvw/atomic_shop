@@ -1,0 +1,6 @@
+<button class="<%= button_classes %>" <%= "disabled" if disabled %> <%= data.map { |k, v| "#{k}='#{v}'" }.join(" ") %>>
+  <% if icon %>
+    <i class="icon icon-<%= icon %>"></i>
+  <% end %>
+  <%= label %>
+</button>
