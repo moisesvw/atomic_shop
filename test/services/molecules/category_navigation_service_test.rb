@@ -255,8 +255,8 @@ class Services::Molecules::CategoryNavigationServiceTest < ActiveSupport::TestCa
 
     assert_equal 3, stats[:root_category_count] # Electronics, Clothing, Books
     assert_equal 6, stats[:total_category_count] # 3 root + 3 subcategories
-    assert_equal 2, stats[:categories_with_products]
-    assert_equal 2, stats[:empty_categories]
+    assert_equal 5, stats[:categories_with_products] # Electronics, Smartphones, Laptops, Clothing, Phones
+    assert_equal 1, stats[:empty_categories] # Only @books (since @fiction is a child of @books)
   end
 
   # Test error handling
