@@ -236,7 +236,7 @@ class Services::Atoms::CategoryFinderTest < ActiveSupport::TestCase
   test "should count products in category" do
     assert_equal 1, @finder.product_count(@phones)
     assert_equal 1, @finder.product_count(@laptops)
-    assert_equal 1, @finder.product_count(@electronics) # Has headphones from fixtures
+    assert_equal 2, @finder.product_count(@electronics) # Has headphones from fixtures + test products
   end
 
   test "should count products including subcategories" do
