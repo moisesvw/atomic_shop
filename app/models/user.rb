@@ -94,6 +94,13 @@ class User < ApplicationRecord
     password_reset_sent_at < PASSWORD_RESET_EXPIRY.ago
   end
 
+
+
+  def email_verification_expired?
+    return true unless email_verification_sent_at
+    email_verification_sent_at < EMAIL_VERIFICATION_EXPIRY.ago
+  end
+
   # Account security methods
   def increment_failed_attempts!
     increment!(:failed_login_attempts)
