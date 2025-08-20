@@ -4,7 +4,7 @@ require "test_helper"
 
 class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
   # 🧪 TDD Excellence: Submit Button Component Testing
-  # 
+  #
   # This test suite validates the submit button component with loading states,
   # accessibility features, and consistent styling across different variants.
 
@@ -12,9 +12,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
     component = Atoms::SubmitButtonComponent.new(
       text: "Submit"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button[type='submit']", text: "Submit"
     assert_selector "button[data-submit-button='true']"
     assert_selector "span[data-button-text]", text: "Submit"
@@ -25,9 +25,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Sign In",
       loading_text: "Signing in..."
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button[data-loading-text='Signing in...']"
   end
 
@@ -35,9 +35,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
     component = Atoms::SubmitButtonComponent.new(
       text: "Register"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button[data-loading-text='Register...']"
   end
 
@@ -45,9 +45,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
     component = Atoms::SubmitButtonComponent.new(
       text: "Submit"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.bg-blue-600.text-white"
     assert_selector "button.hover\\:bg-blue-700"
     assert_selector "button.focus\\:ring-blue-500"
@@ -58,9 +58,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Cancel",
       variant: :secondary
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.bg-white.text-gray-700"
     assert_selector "button.border-gray-300"
     assert_selector "button.hover\\:bg-gray-50"
@@ -71,9 +71,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Delete",
       variant: :danger
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.bg-red-600.text-white"
     assert_selector "button.hover\\:bg-red-700"
     assert_selector "button.focus\\:ring-red-500"
@@ -84,9 +84,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Save",
       variant: :success
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.bg-green-600.text-white"
     assert_selector "button.hover\\:bg-green-700"
     assert_selector "button.focus\\:ring-green-500"
@@ -96,9 +96,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
     component = Atoms::SubmitButtonComponent.new(
       text: "Submit"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.px-4.py-2.text-base"
   end
 
@@ -107,9 +107,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Submit",
       size: :small
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.px-3.py-2.text-sm"
     assert_selector "svg.w-4.h-4" # Small spinner
   end
@@ -119,9 +119,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Submit",
       size: :large
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.px-6.py-3.text-lg"
     assert_selector "svg.w-6.h-6" # Large spinner
   end
@@ -131,9 +131,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Submit",
       disabled: true
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button[disabled]"
     assert_selector "button.disabled\\:opacity-50"
     assert_selector "button.disabled\\:cursor-not-allowed"
@@ -144,9 +144,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Submit",
       classes: "w-full custom-class"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button.w-full.custom-class"
   end
 
@@ -155,9 +155,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       text: "Submit",
       form_id: "my-form"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "button[form='my-form']"
   end
 
@@ -165,9 +165,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
     component = Atoms::SubmitButtonComponent.new(
       text: "Submit"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "svg[data-loading-spinner].hidden" # Hidden by default
     assert_selector "svg.animate-spin"
     assert_selector "circle.opacity-25"
@@ -207,29 +207,29 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       variant: :primary,
       size: :large
     )
-    
+
     render_inline(component)
-    
+
     # Proper button semantics
     assert_selector "button[type='submit']"
-    
+
     # Focus management
     assert_selector "button.focus\\:outline-none"
     assert_selector "button.focus\\:ring-2"
     assert_selector "button.focus\\:ring-offset-2"
-    
+
     # Disabled state accessibility
     assert_selector "button.disabled\\:opacity-50"
     assert_selector "button.disabled\\:cursor-not-allowed"
-    
+
     # Loading state preparation
     assert_selector "button[data-loading-text]"
     assert_selector "span[data-button-text]"
   end
 
   test "handles all variant and size combinations" do
-    variants = [:primary, :secondary, :danger, :success]
-    sizes = [:small, :medium, :large]
+    variants = [ :primary, :secondary, :danger, :success ]
+    sizes = [ :small, :medium, :large ]
 
     # Test that all combinations can be instantiated without errors
     variants.each do |variant|
@@ -258,9 +258,9 @@ class Atoms::SubmitButtonComponentTest < ViewComponent::TestCase
       classes: "w-full mt-4",
       form_id: "registration-form"
     )
-    
+
     render_inline(component)
-    
+
     # All attributes present
     assert_selector "button[type='submit']"
     assert_selector "button[form='registration-form']"

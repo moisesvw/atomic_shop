@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # ⚛️ Atom: SubmitButtonComponent
-# 
+#
 # A specialized button component for form submissions with loading states,
 # accessibility features, and consistent styling.
 #

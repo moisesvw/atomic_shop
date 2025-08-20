@@ -4,7 +4,7 @@ require "test_helper"
 
 class Atoms::FormFieldComponentTest < ViewComponent::TestCase
   # 🧪 TDD Excellence: Comprehensive Component Testing
-  # 
+  #
   # This test suite demonstrates thorough testing of atomic UI components
   # built with test-driven development principles. Each test validates specific
   # behavior and accessibility features for production-ready components.
@@ -14,9 +14,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       name: "email",
       label: "Email Address"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "label[for='field_email']", text: "Email Address"
     assert_selector "input[type='text'][name='email'][id='field_email']"
     assert_selector "input[placeholder='Email Address']"
@@ -28,9 +28,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Email",
       type: :email
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input[type='email']"
   end
 
@@ -40,9 +40,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Password",
       type: :password
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input[type='password']"
   end
 
@@ -52,9 +52,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Name",
       value: "John Doe"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input[value='John Doe']"
   end
 
@@ -64,9 +64,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Search",
       placeholder: "Search products..."
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input[placeholder='Search products...']"
   end
 
@@ -76,9 +76,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Email",
       required: true
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input[required]"
     assert_selector "span.text-red-500", text: "*"
     assert_selector "span[aria-label='required']"
@@ -90,9 +90,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Read Only",
       disabled: true
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input[disabled]"
     assert_selector "input.disabled\\:bg-gray-50"
   end
@@ -103,9 +103,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Email",
       autocomplete: "email"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input[autocomplete='email']"
   end
 
@@ -115,18 +115,18 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Email",
       error: "Email is required"
     )
-    
+
     render_inline(component)
-    
+
     # Error styling
     assert_selector "input.border-red-300"
     assert_selector "label.text-red-700"
-    
+
     # Error message
     assert_selector "div[role='alert']", text: "Email is required"
     assert_selector "div[id='field_email_error']"
     assert_selector "i.fas.fa-exclamation-circle"
-    
+
     # ARIA attributes
     assert_selector "input[aria-invalid='true']"
     assert_selector "input[aria-describedby='field_email_error']"
@@ -138,9 +138,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Password",
       help_text: "Must be at least 8 characters"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "div[id='field_password_help']", text: "Must be at least 8 characters"
     assert_selector "input[aria-describedby='field_password_help']"
   end
@@ -152,9 +152,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       error: "Password is too short",
       help_text: "Must be at least 8 characters"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "div[role='alert']", text: "Password is too short"
     assert_no_selector "div[id='field_password_help']"
     assert_selector "input[aria-describedby='field_password_error']"
@@ -165,9 +165,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       name: "user[profile_attributes][first_name]",
       label: "First Name"
     )
-    
+
     render_inline(component)
-    
+
     # Should generate clean ID from complex name
     assert_selector "input[id='field_user_profile_attributes_first_name']"
     assert_selector "label[for='field_user_profile_attributes_first_name']"
@@ -179,9 +179,9 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       label: "Custom Field",
       classes: "custom-class another-class"
     )
-    
+
     render_inline(component)
-    
+
     assert_selector "input.custom-class.another-class"
   end
 
@@ -195,16 +195,16 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       search: "search",
       text: "text"
     }
-    
+
     types.each do |component_type, html_type|
       component = Atoms::FormFieldComponent.new(
         name: "test_#{component_type}",
         label: "Test #{component_type.capitalize}",
         type: component_type
       )
-      
+
       render_inline(component)
-      
+
       assert_selector "input[type='#{html_type}']"
     end
   end
@@ -217,17 +217,17 @@ class Atoms::FormFieldComponentTest < ViewComponent::TestCase
       error: "This field has an error",
       help_text: "This help text should not show due to error"
     )
-    
+
     render_inline(component)
-    
+
     # Proper label association
     assert_selector "label[for='field_accessible_field']"
     assert_selector "input[id='field_accessible_field']"
-    
+
     # Required indication
     assert_selector "input[required]"
     assert_selector "span[aria-label='required']"
-    
+
     # Error state accessibility
     assert_selector "input[aria-invalid='true']"
     assert_selector "input[aria-describedby='field_accessible_field_error']"

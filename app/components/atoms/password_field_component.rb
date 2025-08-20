@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # ⚛️ Atom: PasswordFieldComponent
-# 
+#
 # A specialized form field component for password inputs with enhanced security
 # features and user experience improvements.
 #
@@ -92,7 +92,7 @@ class Atoms::PasswordFieldComponent < ViewComponent::Base
 
   def label_classes
     base_classes = %w[block text-sm font-medium mb-1]
-    
+
     color_classes = if has_error?
       %w[text-red-700]
     else

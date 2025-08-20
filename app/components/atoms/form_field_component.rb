@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # ⚛️ Atom: FormFieldComponent
-# 
+#
 # A reusable form field component that provides consistent styling and behavior
 # across all forms in the application. This atom can be composed into molecules
 # like login forms, registration forms, etc.
@@ -25,7 +25,7 @@
 #   )) %>
 
 class Atoms::FormFieldComponent < ViewComponent::Base
-  attr_reader :name, :label, :type, :value, :placeholder, :error, :required, 
+  attr_reader :name, :label, :type, :value, :placeholder, :error, :required,
               :disabled, :autocomplete, :classes, :help_text
 
   def initialize(
@@ -79,7 +79,7 @@ class Atoms::FormFieldComponent < ViewComponent::Base
 
   def label_classes
     base_classes = %w[block text-sm font-medium mb-1]
-    
+
     color_classes = if has_error?
       %w[text-red-700]
     else
