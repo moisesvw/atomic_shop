@@ -81,7 +81,7 @@ gem "interactor", "~> 3.1"
 
 gem "dry-validation", "~> 1.11"
 
-gem "dry-monads", "~> 1.8"
+gem "dry-monads", "~> 1.9"
 
 gem "pundit", "~> 2.5"
 
