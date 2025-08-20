@@ -24,7 +24,7 @@ module Services
       # @param price_cents [Integer] Price in cents
       # @param currency [String] Currency symbol (default: '$')
       # @return [String] Formatted price string
-      def format_price(price_cents, currency: '$')
+      def format_price(price_cents, currency: "$")
         return "#{currency}0.00" if price_cents.nil? || price_cents.zero?
 
         dollars = (price_cents / 100.0).round(2)
@@ -36,7 +36,7 @@ module Services
       # @param prices [Array<Integer>] Array of prices in cents
       # @param currency [String] Currency symbol (default: '$')
       # @return [String] Price range string or single price
-      def price_range(prices, currency: '$')
+      def price_range(prices, currency: "$")
         return format_price(0, currency: currency) if prices.empty?
 
         clean_prices = prices.compact.reject(&:zero?)
@@ -73,7 +73,7 @@ module Services
         return original_price if original_price.nil? || discount_percent.nil?
 
         discount = discount_amount(original_price, discount_percent)
-        [original_price - discount, 0].max
+        [ original_price - discount, 0 ].max
       end
 
       # 🎯 Calculate discount percentage
@@ -155,7 +155,7 @@ module Services
         return 0 if price_string.blank?
 
         # Remove currency symbols and whitespace
-        clean_string = price_string.to_s.gsub(/[$,\s]/, '')
+        clean_string = price_string.to_s.gsub(/[$,\s]/, "")
 
         # Convert to float and then to cents
         (clean_string.to_f * 100).round

@@ -10,10 +10,12 @@ module Services
 
       def execute
         # Get basic product details
-        details_service = Services::Molecules::ProductDetailsService.new(@product_id)
+        details_service = Services::Molecules::ProductDetailsService.new(product_id: @product_id)
         details_result = details_service.execute
 
-        return { success: false, error: "Product not found" } unless details_result
+        return { success: false, error: "Product not found" } unless details_result[:success]
+
+        product_data = details_result[:data]
 
         # Get selected variant details if options are provided
         variant_result = if @selected_options.present?
@@ -21,8 +23,10 @@ module Services
           variant_service.execute
         else
           # Default to first variant if no options selected
-          first_variant = details_result[:variants].first
-          if first_variant
+          first_variant_data = product_data[:variants]&.first
+          if first_variant_data
+            # Get the actual variant object
+            first_variant = ProductVariant.find(first_variant_data[:id])
             inventory_checker = Services::Atoms::InventoryChecker.new(first_variant)
             {
               success: true,
@@ -38,20 +42,18 @@ module Services
           end
         end
 
-        # Get related products (could be expanded in a real implementation)
-        related_products = Product.where(category_id: details_result[:product].category_id)
-                                 .where.not(id: @product_id)
-                                 .limit(4)
+        # Get related products from the new service response
+        related_products = product_data[:related_products] || []
 
         # Combine all results
         {
           success: true,
-          product: details_result[:product],
-          variants: details_result[:variants],
-          available_options: details_result[:available_options],
-          price_range: details_result[:price_range],
-          average_rating: details_result[:average_rating],
-          reviews: details_result[:reviews],
+          product: product_data[:product],
+          variants: product_data[:variants],
+          available_options: [], # This would need to be implemented
+          price_range: product_data[:pricing][:price_range],
+          average_rating: product_data[:metadata][:average_rating],
+          reviews: [], # This would need to be implemented
           selected_variant: variant_result[:variant],
           selected_variant_price: variant_result[:price],
           selected_variant_sku: variant_result[:sku],

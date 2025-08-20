@@ -19,7 +19,7 @@ class Services::Molecules::ProductDetailsServiceTest < ActiveSupport::TestCase
     )
     @variant1 = create_product_variant(@product, price_cents: 99900, stock_quantity: 10)
     @variant2 = create_product_variant(@product, price_cents: 109900, stock_quantity: 5)
-    
+
     @related_product = create_product(
       name: "iPhone Case",
       category: @category,
@@ -135,7 +135,7 @@ class Services::Molecules::ProductDetailsServiceTest < ActiveSupport::TestCase
     variants = result[:data][:variants]
 
     assert_equal 2, variants.length
-    
+
     variant_data = variants.first
     assert_includes variant_data.keys, :id
     assert_includes variant_data.keys, :sku
@@ -167,7 +167,7 @@ class Services::Molecules::ProductDetailsServiceTest < ActiveSupport::TestCase
     related = result[:data][:related_products]
 
     assert_equal 1, related.length
-    
+
     related_data = related.first
     assert_equal @related_product.id, related_data[:id]
     assert_equal @related_product.name, related_data[:name]
@@ -267,7 +267,7 @@ class Services::Molecules::ProductDetailsServiceTest < ActiveSupport::TestCase
   # Test service composition
   test "should compose atomic services correctly" do
     service = Services::Molecules::ProductDetailsService.new(product_id: @product.id)
-    
+
     # Verify atomic services are initialized
     assert_instance_of Services::Atoms::ProductFinder, service.instance_variable_get(:@product_finder)
     assert_instance_of Services::Atoms::PriceCalculator, service.instance_variable_get(:@price_calculator)

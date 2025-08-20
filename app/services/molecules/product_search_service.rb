@@ -26,8 +26,8 @@ module Services
         @query = query&.strip
         @filters = filters || {}
         @sort = sort
-        @page = [page.to_i, 1].max
-        @per_page = [[per_page.to_i, 1].max, 100].min
+        @page = [ page.to_i, 1 ].max
+        @per_page = [ [ per_page.to_i, 1 ].max, 100 ].min
 
         # Compose atomic services
         @product_finder = Services::Atoms::ProductFinder.new
@@ -66,7 +66,7 @@ module Services
         products = apply_search_query
         products = apply_filters(products)
         products = apply_sorting(products)
-        
+
         # Apply pagination
         offset = (@page - 1) * @per_page
         paginated_products = products.offset(offset).limit(@per_page)
@@ -218,7 +218,7 @@ module Services
       # 🔧 Build available categories for filtering
       def build_available_categories
         categories = @category_finder.with_products(limit: 20)
-        
+
         categories.map do |category|
           {
             id: category.id,
@@ -287,7 +287,7 @@ module Services
 
         # Simple suggestion logic - could be enhanced with more sophisticated algorithms
         suggestions = []
-        
+
         # Suggest similar product names
         if count_total_results < 5
           similar_products = @product_finder.by_name_search(@query.first(3), limit: 5)

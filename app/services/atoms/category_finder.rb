@@ -89,7 +89,7 @@ module Services
       def category_path(category)
         return [] unless category
 
-        path = [category]
+        path = [ category ]
         current = category
 
         while current.parent
@@ -141,7 +141,7 @@ module Services
         return [] unless parent_category
 
         descendants = []
-        queue = [parent_category]
+        queue = [ parent_category ]
 
         while queue.any? && (limit.nil? || descendants.length < limit)
           current = queue.shift
@@ -169,10 +169,10 @@ module Services
         scope = if category.parent_id
                   Category.where(parent_id: category.parent_id)
                           .where.not(id: category.id)
-                else
+        else
                   Category.where(parent_id: nil)
                           .where.not(id: category.id)
-                end
+        end
 
         scope = scope.limit(limit) if limit
         scope
@@ -197,7 +197,7 @@ module Services
         return 0 unless category
 
         if include_subcategories
-          all_category_ids = [category.id] + all_descendants(category).map(&:id)
+          all_category_ids = [ category.id ] + all_descendants(category).map(&:id)
           Product.where(category_id: all_category_ids).count
         else
           category.products.count

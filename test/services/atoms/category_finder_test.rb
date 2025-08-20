@@ -116,12 +116,12 @@ class Services::Atoms::CategoryFinderTest < ActiveSupport::TestCase
   # Test category_path method
   test "should return category path for nested category" do
     path = @finder.category_path(@phones)
-    assert_equal [@electronics, @phones], path
+    assert_equal [ @electronics, @phones ], path
   end
 
   test "should return single category path for root category" do
     path = @finder.category_path(@electronics)
-    assert_equal [@electronics], path
+    assert_equal [ @electronics ], path
   end
 
   test "should return empty array for nil category" do
@@ -286,7 +286,7 @@ class Services::Atoms::CategoryFinderTest < ActiveSupport::TestCase
   # Integration tests
   test "should handle complex hierarchical queries" do
     # Test finding all categories in electronics hierarchy
-    electronics_hierarchy = [@electronics] + @finder.all_descendants(@electronics)
+    electronics_hierarchy = [ @electronics ] + @finder.all_descendants(@electronics)
     assert_includes electronics_hierarchy, @electronics
     assert_includes electronics_hierarchy, @phones
     assert_includes electronics_hierarchy, @laptops

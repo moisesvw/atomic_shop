@@ -32,12 +32,12 @@ class Services::Atoms::PriceCalculatorTest < ActiveSupport::TestCase
 
   # Test price_range method
   test "should calculate price range for multiple prices" do
-    prices = [1299, 1599, 1899]
+    prices = [ 1299, 1599, 1899 ]
     assert_equal "$12.99 - $18.99", @calculator.price_range(prices)
   end
 
   test "should return single price when all prices are same" do
-    prices = [1299, 1299, 1299]
+    prices = [ 1299, 1299, 1299 ]
     assert_equal "$12.99", @calculator.price_range(prices)
   end
 
@@ -46,7 +46,7 @@ class Services::Atoms::PriceCalculatorTest < ActiveSupport::TestCase
   end
 
   test "should handle array with nil values" do
-    prices = [1299, nil, 1599, 0]
+    prices = [ 1299, nil, 1599, 0 ]
     assert_equal "$12.99 - $15.99", @calculator.price_range(prices)
   end
 
@@ -155,7 +155,7 @@ class Services::Atoms::PriceCalculatorTest < ActiveSupport::TestCase
 
   # Test average price calculation
   test "should calculate average price correctly" do
-    prices = [1000, 1500, 2000]
+    prices = [ 1000, 1500, 2000 ]
     assert_equal 1500, @calculator.average_price(prices)
   end
 
@@ -164,7 +164,7 @@ class Services::Atoms::PriceCalculatorTest < ActiveSupport::TestCase
   end
 
   test "should ignore nil and zero values in average" do
-    prices = [1000, nil, 1500, 0, 2000]
+    prices = [ 1000, nil, 1500, 0, 2000 ]
     assert_equal 1500, @calculator.average_price(prices)
   end
 

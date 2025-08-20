@@ -12,13 +12,13 @@ class Services::Molecules::CategoryNavigationServiceTest < ActiveSupport::TestCa
     # Create hierarchical category structure
     @root_category = create_category(name: "Electronics", slug: "electronics")
     @phones_category = create_category(
-      name: "Phones", 
-      slug: "phones", 
+      name: "Phones",
+      slug: "phones",
       parent: @root_category
     )
     @laptops_category = create_category(
-      name: "Laptops", 
-      slug: "laptops", 
+      name: "Laptops",
+      slug: "laptops",
       parent: @root_category
     )
     @books_category = create_category(name: "Books", slug: "books")
@@ -109,12 +109,12 @@ class Services::Molecules::CategoryNavigationServiceTest < ActiveSupport::TestCa
     breadcrumb_path = result[:data][:breadcrumb_path]
 
     assert_equal 2, breadcrumb_path.length
-    
+
     # Root category should be first
     assert_equal @root_category.id, breadcrumb_path[0][:id]
     assert_equal @root_category.name, breadcrumb_path[0][:name]
     assert_equal "/categories/#{@root_category.slug}", breadcrumb_path[0][:url]
-    
+
     # Current category should be last
     assert_equal @phones_category.id, breadcrumb_path[1][:id]
     assert_equal @phones_category.name, breadcrumb_path[1][:name]
@@ -278,7 +278,7 @@ class Services::Molecules::CategoryNavigationServiceTest < ActiveSupport::TestCa
   # Test service composition
   test "should compose atomic services correctly" do
     service = Services::Molecules::CategoryNavigationService.new(category_id: @phones_category.id)
-    
+
     # Verify atomic services are initialized
     assert_instance_of Services::Atoms::CategoryFinder, service.instance_variable_get(:@category_finder)
     assert_instance_of Services::Atoms::ProductFinder, service.instance_variable_get(:@product_finder)

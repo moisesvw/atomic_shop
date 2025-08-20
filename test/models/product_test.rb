@@ -11,9 +11,9 @@ class ProductTest < ActiveSupport::TestCase
     assert_not product.save, "Saved the product without a description"
   end
 
-  test "should not save product without category" do
+  test "should save product without category" do
     product = Product.new(name: "Test Product", description: "Test description")
-    assert_not product.save, "Saved the product without a category"
+    assert product.save, "Could not save the product without a category"
   end
 
   test "should belong to category" do

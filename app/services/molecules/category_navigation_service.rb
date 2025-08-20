@@ -96,7 +96,7 @@ module Services
       # 🔧 Build breadcrumb navigation path
       def build_breadcrumb_path(category)
         path = @category_finder.category_path(category)
-        
+
         path.map do |cat|
           {
             id: cat.id,
@@ -133,7 +133,7 @@ module Services
         return [] unless @include_products
 
         products = @product_finder.by_category(category.id, limit: 12)
-        
+
         products.map do |product|
           product_data = {
             id: product.id,
@@ -187,7 +187,7 @@ module Services
       # 🔧 Build root navigation statistics
       def build_root_stats
         root_categories = @category_finder.root_categories
-        
+
         {
           root_category_count: root_categories.count,
           total_category_count: @category_finder.count,
@@ -200,12 +200,12 @@ module Services
       def calculate_category_level(category)
         level = 0
         current = category
-        
+
         while current.parent
           level += 1
           current = current.parent
         end
-        
+
         level
       end
 
