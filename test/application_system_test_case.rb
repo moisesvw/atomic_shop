@@ -20,8 +20,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     }
 
     # Add headless mode for CI
-    if ENV['CI'] || ENV['HEADLESS']
-      options[:browser_options]['headless'] = nil
+    if ENV["CI"] || ENV["HEADLESS"]
+      options[:browser_options]["headless"] = nil
     end
 
     Capybara::Cuprite::Driver.new(app, **options)
@@ -31,9 +31,9 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   # Increase default wait times for CI environments
   setup do
-    if ENV['CI']
+    if ENV["CI"]
       Capybara.default_max_wait_time = 10
-      Capybara.server_host = '127.0.0.1'
+      Capybara.server_host = "127.0.0.1"
       Capybara.server_port = 3001
     end
   end

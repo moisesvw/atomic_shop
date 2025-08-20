@@ -64,7 +64,7 @@ class ProductsTest < ApplicationSystemTestCase
 
   test "selecting a product variant" do
     # Add retry logic for flaky browser startup in CI
-    retries = ENV['CI'] ? 3 : 1
+    retries = ENV["CI"] ? 3 : 1
 
     retries.times do |attempt|
       begin
