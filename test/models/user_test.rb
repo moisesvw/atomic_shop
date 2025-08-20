@@ -18,7 +18,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should not save user with invalid email format" do
-    invalid_emails = ["invalid-email", "test@", "@example.com", "test.example.com"]
+    invalid_emails = [ "invalid-email", "test@", "@example.com", "test.example.com" ]
     invalid_emails.each do |email|
       user = build_user(email: email)
       assert_not user.save, "Saved the user with invalid email: #{email}"
@@ -65,7 +65,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should require password complexity" do
-    weak_passwords = ["password", "12345678", "abcdefgh", "PASSWORD"]
+    weak_passwords = [ "password", "12345678", "abcdefgh", "PASSWORD" ]
     weak_passwords.each do |password|
       user = build_user(password: password, password_confirmation: password)
       assert_not user.valid?, "#{password} should be invalid"
@@ -74,7 +74,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should accept strong passwords" do
-    strong_passwords = ["Password123", "MySecure1Pass", "Test123Pass"]
+    strong_passwords = [ "Password123", "MySecure1Pass", "Test123Pass" ]
     strong_passwords.each do |password|
       user = build_user(password: password, password_confirmation: password)
       assert user.valid?, "#{password} should be valid"
