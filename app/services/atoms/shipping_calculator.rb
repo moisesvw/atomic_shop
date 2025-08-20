@@ -32,7 +32,7 @@ module Services
         base_fee = shipping_method.base_fee_cents
         weight_fee = calculate_weight_fee(cart, shipping_method)
         distance_fee = calculate_distance_fee(destination, shipping_method)
-        
+
         total_shipping = base_fee + weight_fee + distance_fee
 
         {
@@ -94,7 +94,7 @@ module Services
 
         base_distance_fee = shipping_method.base_fee_cents * 0.1 # 10% of base fee per 100km
         distance_factor = destination[:distance_km] / 100.0
-        
+
         (base_distance_fee * distance_factor * shipping_method.distance_multiplier).round
       end
 
@@ -122,7 +122,7 @@ module Services
 
         shipping_methods.map do |method|
           calculation = calculate_shipping(cart, method, destination)
-          
+
           {
             id: method.id,
             name: method.name,

@@ -48,24 +48,24 @@ module Services
         totals = {
           subtotal_cents: subtotal_cents,
           subtotal: @price_calculator.format_price(subtotal_cents),
-          
+
           discount_cents: discount_result[:total_discount_cents],
           discount: @price_calculator.format_price(discount_result[:total_discount_cents]),
           discount_details: discount_result[:discounts],
-          
+
           discounted_subtotal_cents: discounted_subtotal,
           discounted_subtotal: @price_calculator.format_price(discounted_subtotal),
-          
+
           tax_rate: @tax_rate,
           tax_cents: tax_cents,
           tax: @price_calculator.format_price(tax_cents),
-          
+
           shipping_cents: 0,
           shipping: "$0.00",
-          
+
           total_cents: total_cents,
           total: @price_calculator.format_price(total_cents),
-          
+
           currency: @currency,
           item_count: @cart.total_items,
           breakdown: build_breakdown(subtotal_cents, discount_result, tax_cents, 0)
@@ -86,22 +86,22 @@ module Services
         return base_result unless base_result[:success]
 
         totals = base_result[:data]
-        
+
         # Calculate shipping
         shipping_result = @shipping_calculator.calculate_shipping(@cart, shipping_method, destination)
         shipping_cents = shipping_result[:total_shipping_cents]
-        
+
         # Update totals with shipping
         final_total_cents = totals[:total_cents] + shipping_cents
-        
+
         totals.merge!({
           shipping_cents: shipping_cents,
           shipping: @price_calculator.format_price(shipping_cents),
           shipping_breakdown: shipping_result[:breakdown],
-          
+
           total_cents: final_total_cents,
           total: @price_calculator.format_price(final_total_cents),
-          
+
           breakdown: build_breakdown(
             totals[:subtotal_cents],
             { total_discount_cents: totals[:discount_cents], discounts: totals[:discount_details] },
@@ -162,7 +162,7 @@ module Services
         return totals_result unless totals_result[:success]
 
         totals = totals_result[:data]
-        
+
         savings = {
           total_savings_cents: totals[:discount_cents],
           total_savings: totals[:discount],
@@ -189,7 +189,7 @@ module Services
         total_discount_cents = 0
 
         # Example discount rules (in real app, these would come from database)
-        
+
         # Quantity discount for bulk purchases
         @cart.cart_items.each do |item|
           if item.quantity >= 5
@@ -244,7 +244,7 @@ module Services
       # 🔧 Simulate discount codes (placeholder)
       def simulate_discount_codes(codes, subtotal_cents)
         discounts = []
-        
+
         codes.each do |code|
           case code.upcase
           when "SAVE10"
@@ -255,7 +255,7 @@ module Services
             discounts << discount.merge(code: code, description: "$20 off with code WELCOME20")
           end
         end
-        
+
         discounts
       end
 
@@ -263,27 +263,27 @@ module Services
       def recalculate_with_additional_discounts(base_totals, additional_discounts)
         additional_discount_cents = additional_discounts.sum { |d| d[:savings_cents] }
         total_discount_cents = base_totals[:discount_cents] + additional_discount_cents
-        
+
         # Recalculate final amounts
         discounted_subtotal = base_totals[:subtotal_cents] - total_discount_cents
         tax_cents = calculate_tax(discounted_subtotal)
         total_cents = discounted_subtotal + tax_cents + base_totals[:shipping_cents]
-        
+
         updated_totals = base_totals.merge({
           discount_cents: total_discount_cents,
           discount: @price_calculator.format_price(total_discount_cents),
           discount_details: base_totals[:discount_details] + additional_discounts,
-          
+
           discounted_subtotal_cents: discounted_subtotal,
           discounted_subtotal: @price_calculator.format_price(discounted_subtotal),
-          
+
           tax_cents: tax_cents,
           tax: @price_calculator.format_price(tax_cents),
-          
+
           total_cents: total_cents,
           total: @price_calculator.format_price(total_cents)
         })
-        
+
         success("Cart totals with discount codes calculated", updated_totals)
       end
 

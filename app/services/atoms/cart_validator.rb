@@ -28,7 +28,7 @@ module Services
         return failure("Cart is required") unless cart
 
         errors = []
-        
+
         # Validate cart items
         cart.cart_items.each do |item|
           item_validation = validate_cart_item(item)
@@ -113,7 +113,7 @@ module Services
           available = product_variant.stock_quantity
           current = existing_item&.quantity || 0
           max_additional = available - current
-          
+
           if max_additional <= 0
             errors << "#{product_variant.product.name} is already at maximum quantity in cart"
           else

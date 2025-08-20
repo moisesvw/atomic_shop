@@ -192,7 +192,7 @@ module Services
 
         # Calculate totals with discount
         totals_service = Services::Molecules::CartTotalsService.new(cart: cart)
-        totals_result = totals_service.calculate_with_discounts([discount_code])
+        totals_result = totals_service.calculate_with_discounts([ discount_code ])
 
         if totals_result[:success]
           success("Discount code applied successfully", {
@@ -237,10 +237,10 @@ module Services
         return failure("Cart ID required") unless cart_id
 
         cart = Cart.find(cart_id)
-        
+
         # Get cart contents
         contents_result = @cart_management.get_cart_contents
-        
+
         # Calculate totals
         totals_service = Services::Molecules::CartTotalsService.new(cart: cart)
         totals_result = totals_service.calculate_totals
@@ -306,7 +306,7 @@ module Services
         {
           total_savings_cents: totals_data[:discount_cents],
           total_savings: totals_data[:discount],
-          savings_percentage: totals_data[:discount_cents] > 0 ? 
+          savings_percentage: totals_data[:discount_cents] > 0 ?
             (totals_data[:discount_cents] * 100.0 / totals_data[:subtotal_cents]).round(1) : 0.0
         }
       end

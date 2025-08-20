@@ -195,7 +195,7 @@ module Services
       # @return [Hash] Estimated totals
       def estimate_checkout_totals(shipping_method_id: nil, discount_codes: [])
         shipping_method = shipping_method_id ? find_shipping_method(shipping_method_id) : nil
-        
+
         calculate_checkout_totals(
           shipping_method: shipping_method,
           discount_codes: discount_codes
@@ -283,10 +283,10 @@ module Services
       # 🔧 Get resolution steps for failed validation
       def get_resolution_steps(validation_results)
         steps = []
-        
+
         validation_results.each do |result|
           next if result[:valid]
-          
+
           case result[:category]
           when "Cart Validation"
             steps << "Fix cart issues: #{result[:details][:validation_results].map { |v| v[:errors] }.flatten.join(', ')}"
@@ -298,7 +298,7 @@ module Services
             steps << "Select valid shipping address"
           end
         end
-        
+
         steps
       end
 
@@ -320,17 +320,17 @@ module Services
         return totals if fee_cents <= 0
 
         new_total_cents = totals[:total_cents] + fee_cents
-        
+
         totals.merge({
           payment_fee_cents: fee_cents,
           payment_fee: Services::Atoms::PriceCalculator.new.format_price(fee_cents),
           total_cents: new_total_cents,
           total: Services::Atoms::PriceCalculator.new.format_price(new_total_cents),
-          breakdown: totals[:breakdown] + [{
+          breakdown: totals[:breakdown] + [ {
             label: "Payment Processing",
             amount_cents: fee_cents,
             amount: Services::Atoms::PriceCalculator.new.format_price(fee_cents)
-          }]
+          } ]
         })
       end
 
@@ -338,7 +338,7 @@ module Services
       def find_shipping_method(shipping_method_id)
         # In a real app, this would query the database
         return nil unless shipping_method_id
-        
+
         OpenStruct.new(
           id: shipping_method_id,
           name: "Standard Shipping",
@@ -350,7 +350,7 @@ module Services
       def find_payment_method(payment_method_id)
         # In a real app, this would query the database
         return nil unless payment_method_id
-        
+
         OpenStruct.new(
           id: payment_method_id,
           name: "credit_card"

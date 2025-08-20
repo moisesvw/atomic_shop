@@ -29,7 +29,7 @@ module Services
         return no_discount if amount_cents <= 0 || percentage <= 0
 
         discount_amount = (amount_cents * percentage / 100.0).round
-        discount_amount = [discount_amount, amount_cents].min # Cap at original amount
+        discount_amount = [ discount_amount, amount_cents ].min # Cap at original amount
 
         {
           type: :percentage,
@@ -49,7 +49,7 @@ module Services
       def fixed_discount(amount_cents, discount_cents)
         return no_discount if amount_cents <= 0 || discount_cents <= 0
 
-        discount_amount = [discount_cents, amount_cents].min # Cap at original amount
+        discount_amount = [ discount_cents, amount_cents ].min # Cap at original amount
 
         {
           type: :fixed,
@@ -225,7 +225,7 @@ module Services
       # 🔧 Calculate percentage saved
       def calculate_percentage_saved(discount)
         return 0 if discount[:original_amount_cents] <= 0
-        
+
         (discount[:savings_cents] * 100.0 / discount[:original_amount_cents]).round(1)
       end
 

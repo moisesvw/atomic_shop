@@ -119,7 +119,7 @@ module Services
         return failure("Cart not found") unless cart
 
         cart.clear
-        
+
         success("Cart cleared successfully", {
           cart_summary: build_cart_summary(cart)
         })
@@ -209,7 +209,7 @@ module Services
       def format_cart_item(cart_item)
         variant = cart_item.product_variant
         product = variant.product
-        
+
         # Update inventory checker for this variant
         @inventory_checker = Services::Atoms::InventoryChecker.new(variant)
 

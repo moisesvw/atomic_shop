@@ -136,10 +136,10 @@ module Services
         return failure("Cart item not found") unless cart_item
 
         validation = @cart_validator.validate_cart_item(cart_item)
-        
+
         # Additional item-specific checks
         inventory_checker = Services::Atoms::InventoryChecker.new(cart_item.product_variant)
-        
+
         additional_checks = {
           in_stock: inventory_checker.available?(cart_item.quantity),
           available_quantity: inventory_checker.available_quantity,
@@ -173,7 +173,7 @@ module Services
 
         @cart.cart_items.each do |item|
           inventory_checker = Services::Atoms::InventoryChecker.new(item.product_variant)
-          
+
           # Low stock warning
           if inventory_checker.low_stock?
             warnings << {
@@ -207,10 +207,10 @@ module Services
       # 🔧 Validate inventory for all items
       def validate_inventory
         errors = []
-        
+
         @cart.cart_items.each do |item|
           inventory_checker = Services::Atoms::InventoryChecker.new(item.product_variant)
-          
+
           unless inventory_checker.available?(item.quantity)
             available = inventory_checker.available_quantity
             errors << "#{item.product_variant.product.name}: requested #{item.quantity}, only #{available} available"
@@ -228,11 +228,11 @@ module Services
       # 🔧 Validate inventory for checkout (stricter)
       def validate_inventory_for_checkout
         errors = []
-        
+
         @cart.cart_items.each do |item|
           variant = item.product_variant
           inventory_checker = Services::Atoms::InventoryChecker.new(variant)
-          
+
           # Must be in stock
           unless variant.in_stock?
             errors << "#{variant.product.name} is out of stock"
@@ -257,7 +257,7 @@ module Services
       # 🔧 Validate business rules
       def validate_business_rules
         errors = []
-        
+
         # Example business rules
         if @cart.total_items > 50
           errors << "Cart cannot contain more than 50 items"
@@ -278,10 +278,10 @@ module Services
       # 🔧 Validate product availability
       def validate_product_availability
         errors = []
-        
+
         @cart.cart_items.each do |item|
           product = item.product_variant.product
-          
+
           unless product
             errors << "Product no longer exists for item #{item.id}"
             next
@@ -303,7 +303,7 @@ module Services
       def validate_minimum_order
         errors = []
         minimum_order_cents = 1000 # $10.00 minimum order
-        
+
         if @cart.total_price_cents < minimum_order_cents
           required = minimum_order_cents / 100.0
           current = @cart.total_price
@@ -321,7 +321,7 @@ module Services
       # 🔧 Validate item limits
       def validate_item_limits
         errors = []
-        
+
         @cart.cart_items.each do |item|
           # Example: maximum 10 of any single item
           if item.quantity > 10

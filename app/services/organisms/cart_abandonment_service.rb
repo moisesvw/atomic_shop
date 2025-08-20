@@ -229,7 +229,7 @@ module Services
         # Check for out-of-stock items
         validation_service = Services::Molecules::CartValidationService.new(cart: cart)
         validation_result = validation_service.validate_cart_state
-        
+
         unless validation_result[:success]
           reasons << "inventory_issues"
         end
@@ -253,7 +253,7 @@ module Services
         return {} unless totals_result[:success]
 
         totals = totals_result[:data]
-        
+
         {
           subtotal_cents: totals[:subtotal_cents],
           subtotal: totals[:subtotal],
@@ -315,7 +315,7 @@ module Services
         return {} if analyzed_carts.empty?
 
         total_value_cents = analyzed_carts.sum { |cart| cart[:cart_value_cents] }
-        
+
         {
           total_abandoned_value_cents: total_value_cents,
           total_abandoned_value: @price_calculator.format_price(total_value_cents),
@@ -368,7 +368,7 @@ module Services
 
         abandoned_carts.each do |cart|
           analysis = analyze_abandoned_cart(cart)
-          
+
           segments[:high_value] << cart if analysis[:cart_value_cents] > 10000
           segments[:recent] << cart if analysis[:abandonment_duration] < 24.hours
           segments[:registered_users] << cart if cart.user_id
@@ -506,8 +506,8 @@ module Services
 
       def calculate_expected_recovery(campaigns)
         total_carts = campaigns.sum { |campaign| campaign[:cart_count] }
-        weighted_recovery_rate = campaigns.sum { |campaign| 
-          campaign[:cart_count] * campaign[:expected_recovery_rate] 
+        weighted_recovery_rate = campaigns.sum { |campaign|
+          campaign[:cart_count] * campaign[:expected_recovery_rate]
         } / total_carts.to_f
 
         {

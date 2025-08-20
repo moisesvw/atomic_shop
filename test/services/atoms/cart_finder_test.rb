@@ -32,10 +32,10 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
   test "by_user respects status parameter" do
     # Create completed cart for user
     completed_cart = Cart.create!(user: @user, status: "completed")
-    
+
     active_cart = @finder.by_user(@user, status: "active")
     completed_cart_found = @finder.by_user(@user, status: "completed")
-    
+
     assert_equal "active", active_cart.status
     assert_equal "completed", completed_cart_found.status
   end
@@ -44,7 +44,7 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
   test "by_session returns session's active cart" do
     cart = Cart.create!(session_id: @session_id, status: "active")
     found_cart = @finder.by_session(@session_id)
-    
+
     assert_not_nil found_cart
     assert_equal @session_id, found_cart.session_id
     assert_equal "active", found_cart.status
@@ -53,7 +53,7 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
   test "by_session returns nil for blank session_id" do
     cart = @finder.by_session("")
     assert_nil cart
-    
+
     cart = @finder.by_session(nil)
     assert_nil cart
   end
@@ -84,13 +84,13 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
   test "find_or_create_for_user returns existing cart" do
     existing_cart = @finder.by_user(@user)
     found_cart = @finder.find_or_create_for_user(@user)
-    
+
     assert_equal existing_cart.id, found_cart.id
   end
 
   test "find_or_create_for_user creates new cart when none exists" do
     user_without_cart = users(:two)
-    
+
     assert_difference "Cart.count", 1 do
       cart = @finder.find_or_create_for_user(user_without_cart)
       assert_not_nil cart
@@ -108,13 +108,13 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
   test "find_or_create_for_session returns existing cart" do
     existing_cart = Cart.create!(session_id: @session_id, status: "active")
     found_cart = @finder.find_or_create_for_session(@session_id)
-    
+
     assert_equal existing_cart.id, found_cart.id
   end
 
   test "find_or_create_for_session creates new cart when none exists" do
     new_session_id = "new_session_456"
-    
+
     assert_difference "Cart.count", 1 do
       cart = @finder.find_or_create_for_session(new_session_id)
       assert_not_nil cart
@@ -126,7 +126,7 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
   test "find_or_create_for_session returns nil for blank session_id" do
     cart = @finder.find_or_create_for_session("")
     assert_nil cart
-    
+
     cart = @finder.find_or_create_for_session(nil)
     assert_nil cart
   end
@@ -139,16 +139,16 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
       status: "abandoned",
       updated_at: 2.hours.ago
     )
-    
+
     # Create recent cart (should not be included)
     recent_cart = Cart.create!(
       user: users(:two),
       status: "abandoned",
       updated_at: 30.minutes.ago
     )
-    
+
     abandoned_carts = @finder.abandoned_carts(since: 1.hour.ago)
-    
+
     assert_includes abandoned_carts, abandoned_cart
     assert_not_includes abandoned_carts, recent_cart
   end
@@ -162,7 +162,7 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
         updated_at: 2.hours.ago
       )
     end
-    
+
     abandoned_carts = @finder.abandoned_carts(limit: 2)
     assert_equal 2, abandoned_carts.length
   end
@@ -175,12 +175,12 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
       product_variant: product_variants(:one),
       quantity: 2
     )
-    
+
     # Create empty cart
     empty_cart = Cart.create!(session_id: "empty_session", status: "active")
-    
+
     carts_with_items = @finder.with_items
-    
+
     assert_includes carts_with_items, cart_with_items
     assert_not_includes carts_with_items, empty_cart
   end
@@ -194,7 +194,7 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
         quantity: 1
       )
     end
-    
+
     carts_with_items = @finder.with_items(limit: 1)
     assert_equal 1, carts_with_items.length
   end
@@ -207,16 +207,16 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
       status: "active",
       created_at: 2.days.ago
     )
-    
+
     # Create cart with items
     cart_with_items = Cart.create!(user: @user, status: "active")
     cart_with_items.cart_items.create!(
       product_variant: product_variants(:one),
       quantity: 1
     )
-    
+
     empty_carts = @finder.empty_carts(older_than: 1.day.ago)
-    
+
     assert_includes empty_carts, empty_cart
     assert_not_includes empty_carts, cart_with_items
   end
@@ -228,7 +228,7 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
       status: "active",
       created_at: 1.hour.ago
     )
-    
+
     empty_carts = @finder.empty_carts(older_than: 1.day.ago)
     assert_not_includes empty_carts, recent_empty_cart
   end
@@ -236,20 +236,20 @@ class Services::Atoms::CartFinderTest < ActiveSupport::TestCase
   # 🧪 Test: Count methods
   test "active_count returns number of active carts" do
     initial_count = @finder.active_count
-    
+
     Cart.create!(session_id: "new_active", status: "active")
     Cart.create!(session_id: "completed", status: "completed")
-    
+
     assert_equal initial_count + 1, @finder.active_count
   end
 
   test "count_by_status returns count for specific status" do
     initial_active = @finder.count_by_status("active")
     initial_completed = @finder.count_by_status("completed")
-    
+
     Cart.create!(session_id: "new_active", status: "active")
     Cart.create!(session_id: "new_completed", status: "completed")
-    
+
     assert_equal initial_active + 1, @finder.count_by_status("active")
     assert_equal initial_completed + 1, @finder.count_by_status("completed")
   end
