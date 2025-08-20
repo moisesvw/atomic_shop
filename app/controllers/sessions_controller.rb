@@ -284,11 +284,11 @@ class SessionsController < ApplicationController
   end
 
   def authentication_failure(message, user = nil)
-    AuthenticationResult.failure(message, user)
+    AuthenticationResult.failure(message, user: user)
   end
 
   def account_failure(message, user = nil)
-    AuthenticationResult.failure(message, user)
+    AuthenticationResult.failure(message, user: user)
   end
 
   def security_failure(message)
