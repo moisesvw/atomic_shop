@@ -75,7 +75,7 @@ group :test do
   gem "vcr", "~> 6.2"  # Record and replay HTTP interactions
 end
 
-gem "view_component", "~> 3.22"
+gem "view_component", "~> 4.0"
 
 gem "interactor", "~> 3.1"
 
