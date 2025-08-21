@@ -77,7 +77,7 @@ end
 
 gem "view_component", "~> 4.0"
 
-gem "interactor", "~> 3.1"
+gem "interactor", "~> 3.2"
 
 gem "dry-validation", "~> 1.11"
 
