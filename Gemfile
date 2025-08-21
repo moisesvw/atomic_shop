@@ -63,7 +63,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "mocha", "~> 2.1"
-  gem "cuprite", "~> 0.14"  # Chrome headless driver that doesn't require ChromeDriver
+  gem "cuprite", "~> 0.17"  # Chrome headless driver that doesn't require ChromeDriver
 
   # Enhanced testing tools for atomic design excellence
   gem "factory_bot_rails", "~> 6.4"  # Test data factories
