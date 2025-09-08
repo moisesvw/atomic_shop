@@ -66,7 +66,7 @@ group :test do
   gem "cuprite", "~> 0.14"  # Chrome headless driver that doesn't require ChromeDriver
 
   # Enhanced testing tools for atomic design excellence
-  gem "factory_bot_rails", "~> 6.4"  # Test data factories
+  gem "factory_bot_rails", "~> 6.5"  # Test data factories
   gem "simplecov", "~> 0.22", require: false  # Code coverage analysis
   gem "simplecov-html", "~> 0.12", require: false  # HTML coverage reports
   gem "shoulda-matchers", "~> 6.0"  # Additional test matchers
